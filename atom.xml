@@ -3,11 +3,11 @@
   <title>不眠之夜の博客</title>
   
   <subtitle>不眠之夜</subtitle>
-  <link href="https://restlessnight.github.io/atom.xml" rel="self"/>
+  <link href="https://blog.restlessnight.cn/atom.xml" rel="self"/>
   
-  <link href="https://restlessnight.github.io/"/>
+  <link href="https://blog.restlessnight.cn/"/>
   <updated>2024-02-27T06:41:38.179Z</updated>
-  <id>https://restlessnight.github.io/</id>
+  <id>https://blog.restlessnight.cn/</id>
   
   <author>
     <name>chenxueyao</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="https://restlessnight.github.io/2024/02/26/hello-world/"/>
-    <id>https://restlessnight.github.io/2024/02/26/hello-world/</id>
+    <link href="https://blog.restlessnight.cn/2024/02/26/hello-world/"/>
+    <id>https://blog.restlessnight.cn/2024/02/26/hello-world/</id>
     <published>2024-02-26T03:13:33.471Z</published>
     <updated>2024-02-27T06:41:38.179Z</updated>
     
@@ -33,7 +33,7 @@
     
     
     
-    <category term="hello" scheme="https://restlessnight.github.io/categories/hello/"/>
+    <category term="hello" scheme="https://blog.restlessnight.cn/categories/hello/"/>
     
     
   </entry>

@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://restlessnight.github.io/2024/02/26/hello-world/</loc>
+    <loc>https://blog.restlessnight.cn/2024/02/26/hello-world/</loc>
     
     <lastmod>2024-02-27</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://restlessnight.github.io/categories/index.html</loc>
+    <loc>https://blog.restlessnight.cn/categories/index.html</loc>
     
     <lastmod>2024-02-27</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://restlessnight.github.io/404.html</loc>
+    <loc>https://blog.restlessnight.cn/404.html</loc>
     
     <lastmod>2024-02-27</lastmod>
     
@@ -29,7 +29,7 @@
   </url>
   
   <url>
-    <loc>https://restlessnight.github.io/friends/index.html</loc>
+    <loc>https://blog.restlessnight.cn/friends/index.html</loc>
     
     <lastmod>2024-02-27</lastmod>
     
@@ -38,7 +38,7 @@
   </url>
   
   <url>
-    <loc>https://restlessnight.github.io/contact/index.html</loc>
+    <loc>https://blog.restlessnight.cn/contact/index.html</loc>
     
     <lastmod>2024-02-27</lastmod>
     
@@ -47,7 +47,7 @@
   </url>
   
   <url>
-    <loc>https://restlessnight.github.io/about/index.html</loc>
+    <loc>https://blog.restlessnight.cn/about/index.html</loc>
     
     <lastmod>2024-02-27</lastmod>
     
@@ -56,7 +56,7 @@
   </url>
   
   <url>
-    <loc>https://restlessnight.github.io/tags/index.html</loc>
+    <loc>https://blog.restlessnight.cn/tags/index.html</loc>
     
     <lastmod>2024-02-27</lastmod>
     
@@ -66,7 +66,7 @@
   
 
   <url>
-    <loc>https://restlessnight.github.io/</loc>
+    <loc>https://blog.restlessnight.cn/</loc>
     <lastmod>2024-02-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -76,7 +76,7 @@
 
   
   <url>
-    <loc>https://restlessnight.github.io/categories/hello/</loc>
+    <loc>https://blog.restlessnight.cn/categories/hello/</loc>
     <lastmod>2024-02-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
