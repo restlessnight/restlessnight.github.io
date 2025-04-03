@@ -7,8 +7,7 @@
     <meta name="baidu-site-verification" content="codeva-S2nZYiUPkL">
     <meta name="google-site-verification" content="Vpd_F-MTIUtR8TAv7vtWW3CZIc9K7wW9nOLCtxaQV48" />
     <meta name="keywords" content="MySQL,主从同步,mysql">
-    <meta name="description" content="时光错位：一次MySQL主从同步延迟的排查与优化创建者:  victor创建时间: 2025年3月28日 11:43类别: MySQL上次编辑者:  victor上次更新时间: 2025年4月3日 15:51
-问题出现背景在生产环境中，执行">
+    <meta name="description" content="时光错位：一次MySQL主从同步延迟的排查与优化问题出现背景在生产环境中，执行 ALTER TABLE 语句向某张大表新增字段后，主从同步出现严重延迟。从库 SHOW SLAVE STATUS 显示 Seconds_Behind_Maste">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -425,10 +424,9 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="时光错位：一次MySQL主从同步延迟的排查与优化"><a href="#时光错位：一次MySQL主从同步延迟的排查与优化" class="headerlink" title="时光错位：一次MySQL主从同步延迟的排查与优化"></a>时光错位：一次MySQL主从同步延迟的排查与优化</h1><p>创建者:  victor<br>创建时间: 2025年3月28日 11:43<br>类别: MySQL<br>上次编辑者:  victor<br>上次更新时间: 2025年4月3日 15:51</p>
-<h1 id="问题出现背景"><a href="#问题出现背景" class="headerlink" title="问题出现背景"></a>问题出现背景</h1><p>在生产环境中，执行 <code>ALTER TABLE</code> 语句向某张大表新增字段后，主从同步出现严重延迟。从库 <code>SHOW SLAVE STATUS</code> 显示 <code>Seconds_Behind_Master</code> 迅速增长，从正常的几秒飙升至数小时甚至上万秒，同时从库查询开始频繁超时，业务访问受阻。<code>SHOW PROCESSLIST</code> 发现大量查询处于 <code>Waiting for table metadata lock</code> 或 <code>Waiting for table flush</code> 状态，导致连接数剧增，最终触及 <code>max_connections</code> 限制，影响整个系统的稳定性。</p>
+                <h1 id="时光错位：一次MySQL主从同步延迟的排查与优化"><a href="#时光错位：一次MySQL主从同步延迟的排查与优化" class="headerlink" title="时光错位：一次MySQL主从同步延迟的排查与优化"></a>时光错位：一次MySQL主从同步延迟的排查与优化</h1><h1 id="问题出现背景"><a href="#问题出现背景" class="headerlink" title="问题出现背景"></a>问题出现背景</h1><p>在生产环境中，执行 <code>ALTER TABLE</code> 语句向某张大表新增字段后，主从同步出现严重延迟。从库 <code>SHOW SLAVE STATUS</code> 显示 <code>Seconds_Behind_Master</code> 迅速增长，从正常的几秒飙升至数小时甚至上万秒，同时从库查询开始频繁超时，业务访问受阻。<code>SHOW PROCESSLIST</code> 发现大量查询处于 <code>Waiting for table metadata lock</code> 或 <code>Waiting for table flush</code> 状态，导致连接数剧增，最终触及 <code>max_connections</code> 限制，影响整个系统的稳定性。</p>
 <h1 id="问题解析"><a href="#问题解析" class="headerlink" title="问题解析"></a><strong>问题解析</strong></h1><h3 id="1-查询从库状态"><a href="#1-查询从库状态" class="headerlink" title="1. 查询从库状态"></a><strong>1. 查询从库状态</strong></h3><p>SHOW SLAVE STATUS\G</p>
-<p>具体指标查看：<a target="_blank" rel="noopener" href="https://www.notion.so/1cac03cbb16c80f3bdc4d03babcd4659?pvs=21"><strong>关键字段解析</strong></a></p>
+<p>具体指标查看：[<strong>关键字段解析</strong>]</p>
 <h3 id="2-结果发现"><a href="#2-结果发现" class="headerlink" title="2. 结果发现"></a><strong>2. 结果发现</strong></h3><p>Slave_SQL_Running_State  值为： <code>Waiting for table metadata lock</code></p>
 <ul>
 <li>正常值：**<code>Reading event from the relay log</code>**</li>
@@ -464,7 +462,7 @@
 </ol>
 <p>通过现象分析 主库执行DDL 语句但并未阻塞，主库正常访问，而且从库的DDL并未执行，说明DDL语句已经阻塞了，排除1，2可能性，查询并未锁表现象，排除4，最大可能就是3</p>
 <h3 id="4-查询未提交的事务"><a href="#4-查询未提交的事务" class="headerlink" title="4. 查询未提交的事务"></a><strong>4. 查询未提交的事务</strong></h3><p><strong>通show processlist</strong>   查到不少等待锁，但这些锁的时间都比较短 明显是DDL阻塞之后的查询也被塞</p>
-<p><img src="/image.png" alt="image.png"></p>
+<p><img src="C:\Users\Administrator\Desktop\image.png"></p>
 <p>执行以下 SQL 语句，检查 <code>INFORMATION_SCHEMA.INNODB_TRX</code> 表，定位未提交的事务：</p>
 <figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    trx_id,</span><br><span class="line">    trx_mysql_thread_id,</span><br><span class="line">    trx_query,</span><br><span class="line">    trx_state,</span><br><span class="line">    trx_wait_started,</span><br><span class="line">    TIMESTAMPDIFF(<span class="keyword">SECOND</span>, trx_wait_started, NOW()) <span class="keyword">AS</span> wait_time_seconds</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    INFORMATION_SCHEMA.INNODB_TRX;</span><br><span class="line">或</span><br><span class="line"> <span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"> <span class="keyword">FROM</span></span><br><span class="line">	 information_schema.INNODB_TRX</span><br><span class="line">	 <span class="keyword">WHERE</span> STATE<span class="operator">=</span><span class="string">'ACTIVE'</span>;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 
@@ -500,7 +498,7 @@
 </ol>
 <p>至此，主从同步恢复正常，问题解决。</p>
 <h1 id="问题回顾"><a href="#问题回顾" class="headerlink" title="问题回顾"></a>问题回顾</h1><p>后续分析事故产生原理</p>
-<p>主要从是<a target="_blank" rel="noopener" href="https://www.notion.so/MySQL-1cac03cbb16c8019b0d5fd58aaa98cf5?pvs=21">MySQL<strong>共享锁</strong>和<strong>独占锁</strong></a> 分析</p>
+<p>主要从是 <a href="#MySQL%E5%85%B1%E4%BA%AB%E9%94%81%E5%92%8C%E7%8B%AC%E5%8D%A0%E9%94%81">MySQL共享锁和独占锁</a> 分析</p>
 <p><strong>发生 <code>Waiting for table metadata lock</code> 的原因</strong></p>
 <p>当 <code>ALTER TABLE</code> 需要 <code>X 锁</code>，但表上有正在执行的 <code>SELECT</code> 时，<code>ALTER TABLE</code> 会<strong>进入等待状态</strong>。这时 <strong>新的查询（SELECT）也会被阻塞</strong>，即使它只是想获取 S 锁！</p>
 <p><strong>📌 详细的锁定过程</strong></p>
