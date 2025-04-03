@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.restlessnight.cn/2025/04/03/shi-guang-cuo-wei-yi-ci-mysql-zhu-cong-tong-bu-yan-chi-de-pai-cha-yu-you-hua/</loc>
+    
+    <lastmod>2025-04-03</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.restlessnight.cn/tags/index.html</loc>
     
     <lastmod>2024-03-01</lastmod>
@@ -76,17 +85,38 @@
 
   <url>
     <loc>https://blog.restlessnight.cn/</loc>
-    <lastmod>2024-03-12</lastmod>
+    <lastmod>2025-04-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
+  <url>
+    <loc>https://blog.restlessnight.cn/tags/MySQL/</loc>
+    <lastmod>2025-04-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.restlessnight.cn/tags/%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/</loc>
+    <lastmod>2025-04-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
     <loc>https://blog.restlessnight.cn/categories/hello/</loc>
-    <lastmod>2024-03-12</lastmod>
+    <lastmod>2025-04-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.restlessnight.cn/categories/MySQL/</loc>
+    <lastmod>2025-04-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
