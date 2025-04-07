@@ -7,7 +7,8 @@
     <meta name="baidu-site-verification" content="codeva-S2nZYiUPkL">
     <meta name="google-site-verification" content="Vpd_F-MTIUtR8TAv7vtWW3CZIc9K7wW9nOLCtxaQV48" />
     <meta name="keywords" content="MySQL,主从同步,mysql">
-    <meta name="description" content="时光错位：一次MySQL主从同步延迟的排查与优化问题出现背景在生产环境中，执行 ALTER TABLE 语句向某张大表新增字段后，主从同步出现严重延迟。从库 SHOW SLAVE STATUS 显示 Seconds_Behind_Maste">
+    <meta name="description" content="在生产环境中，执行 ALTER TABLE 语句向某张大表新增字段后，主从同步出现严重延迟
+时光错位：一次MySQL主从同步延迟的排查与优化问题出现背景在生产环境中，执行 ALTER TABLE 语句向某张大表新增字段后，主从同步出现严重延">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -424,7 +425,8 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="时光错位：一次MySQL主从同步延迟的排查与优化"><a href="#时光错位：一次MySQL主从同步延迟的排查与优化" class="headerlink" title="时光错位：一次MySQL主从同步延迟的排查与优化"></a>时光错位：一次MySQL主从同步延迟的排查与优化</h2><h2 id="问题出现背景"><a href="#问题出现背景" class="headerlink" title="问题出现背景"></a>问题出现背景</h2><p>在生产环境中，执行 <code>ALTER TABLE</code> 语句向某张大表新增字段后，主从同步出现严重延迟。从库 <code>SHOW SLAVE STATUS</code> 显示 <code>Seconds_Behind_Master</code> 迅速增长，从正常的几秒飙升至数小时甚至上万秒，同时从库查询开始频繁超时，业务访问受阻。<code>SHOW PROCESSLIST</code> 发现大量查询处于 <code>Waiting for table metadata lock</code> 或 <code>Waiting for table flush</code> 状态，导致连接数剧增，最终触及 <code>max_connections</code> 限制，影响整个系统的稳定性。</p>
+                <p>在生产环境中，执行 <code>ALTER TABLE</code> 语句向某张大表新增字段后，主从同步出现严重延迟</p>
+<h2 id="时光错位：一次MySQL主从同步延迟的排查与优化"><a href="#时光错位：一次MySQL主从同步延迟的排查与优化" class="headerlink" title="时光错位：一次MySQL主从同步延迟的排查与优化"></a>时光错位：一次MySQL主从同步延迟的排查与优化</h2><h2 id="问题出现背景"><a href="#问题出现背景" class="headerlink" title="问题出现背景"></a>问题出现背景</h2><p>在生产环境中，执行 <code>ALTER TABLE</code> 语句向某张大表新增字段后，主从同步出现严重延迟。从库 <code>SHOW SLAVE STATUS</code> 显示 <code>Seconds_Behind_Master</code> 迅速增长，从正常的几秒飙升至数小时甚至上万秒，同时从库查询开始频繁超时，业务访问受阻。<code>SHOW PROCESSLIST</code> 发现大量查询处于 <code>Waiting for table metadata lock</code> 或 <code>Waiting for table flush</code> 状态，导致连接数剧增，最终触及 <code>max_connections</code> 限制，影响整个系统的稳定性。</p>
 <h2 id="问题解析"><a href="#问题解析" class="headerlink" title="问题解析"></a><strong>问题解析</strong></h2><h3 id="1-查询从库状态"><a href="#1-查询从库状态" class="headerlink" title="1. 查询从库状态"></a><strong>1. 查询从库状态</strong></h3><p>SHOW SLAVE STATUS\G</p>
 <p>具体指标查看：<a href="##%E5%85%B3%E9%94%AE%E5%AD%97%E6%AE%B5%E8%A7%A3%E6%9E%90"><strong>关键字段解析</strong></a></p>
 <h3 id="2-结果发现"><a href="#2-结果发现" class="headerlink" title="2. 结果发现"></a><strong>2. 结果发现</strong></h3><p>Slave_SQL_Running_State 值为： <code>Waiting for table metadata lock</code></p>
