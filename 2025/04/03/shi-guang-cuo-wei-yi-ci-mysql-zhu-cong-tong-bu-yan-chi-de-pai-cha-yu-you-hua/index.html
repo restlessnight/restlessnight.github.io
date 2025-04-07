@@ -6,8 +6,9 @@
     <meta charset="utf-8">
     <meta name="baidu-site-verification" content="codeva-S2nZYiUPkL">
     <meta name="google-site-verification" content="Vpd_F-MTIUtR8TAv7vtWW3CZIc9K7wW9nOLCtxaQV48" />
-    <meta name="keywords" content="MySQL,主从同步,mysql">
-    <meta name="description" content="时光错位：一次MySQL主从同步延迟的排查与优化问题出现背景在生产环境中，执行 ALTER TABLE 语句向某张大表新增字段后，主从同步出现严重延迟。从库 SHOW SLAVE STATUS 显示 Seconds_Behind_Maste">
+    <meta name="keywords" content="restlessnight,github,不眠之夜の博客,不眠之夜的博客,博客,不眠之夜,技术,java,JAVA,spring,springboot,springcloud,spring cloud alibaba,数据库,mysql,tidb,ocenbase,doris,redis,中间件,mq,rocketmq,nacos,feign,分布式,zookper,多线程,高并发">
+    <meta name="description" content="
+1234567title : 时光错位：一次MySQL主从同步延迟的排查与优化tags : [MySQL,主从同步]date : 2025-04-03 17:06:53keywords : MySQL,主从同步,mysqlsummary ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +20,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>时光错位：一次MySQL主从同步延迟的排查与优化 | 不眠之夜の博客</title>
+    <title>不眠之夜の博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="canonical" href="https://blog.restlessnight.cn" />
 
@@ -342,12 +343,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">时光错位：一次MySQL主从同步延迟的排查与优化</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -369,29 +370,12 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/MySQL/">
-                                <span class="chip bg-color">MySQL</span>
-                            </a>
-                        
-                            <a href="/tags/%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/">
-                                <span class="chip bg-color">主从同步</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/MySQL/" class="post-category">
-                                MySQL
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -424,12 +408,16 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="时光错位：一次MySQL主从同步延迟的排查与优化"><a href="#时光错位：一次MySQL主从同步延迟的排查与优化" class="headerlink" title="时光错位：一次MySQL主从同步延迟的排查与优化"></a>时光错位：一次MySQL主从同步延迟的排查与优化</h2><h2 id="问题出现背景"><a href="#问题出现背景" class="headerlink" title="问题出现背景"></a>问题出现背景</h2><p>在生产环境中，执行 <code>ALTER TABLE</code> 语句向某张大表新增字段后，主从同步出现严重延迟。从库 <code>SHOW SLAVE STATUS</code> 显示 <code>Seconds_Behind_Master</code> 迅速增长，从正常的几秒飙升至数小时甚至上万秒，同时从库查询开始频繁超时，业务访问受阻。<code>SHOW PROCESSLIST</code> 发现大量查询处于 <code>Waiting for table metadata lock</code> 或 <code>Waiting for table flush</code> 状态，导致连接数剧增，最终触及 <code>max_connections</code> 限制，影响整个系统的稳定性。</p>
+                <hr>
+<figure class="highlight yaml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">title :</span> <span class="string">时光错位：一次MySQL主从同步延迟的排查与优化</span></span><br><span class="line"><span class="attr">tags :</span> [<span class="string">MySQL</span>,<span class="string">主从同步</span>]</span><br><span class="line"><span class="attr">date :</span> <span class="number">2025-04-03 17:06:53</span></span><br><span class="line"><span class="attr">keywords :</span> <span class="string">MySQL,主从同步,mysql</span></span><br><span class="line"><span class="attr">summary :</span></span><br><span class="line"><span class="attr">top :</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">cover :</span> <span class="literal">true</span></span><br></pre></td></tr></tbody></table></figure>
+
+<hr>
+<h2 id="时光错位：一次MySQL主从同步延迟的排查与优化"><a href="#时光错位：一次MySQL主从同步延迟的排查与优化" class="headerlink" title="时光错位：一次MySQL主从同步延迟的排查与优化"></a>时光错位：一次MySQL主从同步延迟的排查与优化</h2><h2 id="问题出现背景"><a href="#问题出现背景" class="headerlink" title="问题出现背景"></a>问题出现背景</h2><p>在生产环境中，执行 <code>ALTER TABLE</code> 语句向某张大表新增字段后，主从同步出现严重延迟。从库 <code>SHOW SLAVE STATUS</code> 显示 <code>Seconds_Behind_Master</code> 迅速增长，从正常的几秒飙升至数小时甚至上万秒，同时从库查询开始频繁超时，业务访问受阻。<code>SHOW PROCESSLIST</code> 发现大量查询处于 <code>Waiting for table metadata lock</code> 或 <code>Waiting for table flush</code> 状态，导致连接数剧增，最终触及 <code>max_connections</code> 限制，影响整个系统的稳定性。</p>
 <h2 id="问题解析"><a href="#问题解析" class="headerlink" title="问题解析"></a><strong>问题解析</strong></h2><h3 id="1-查询从库状态"><a href="#1-查询从库状态" class="headerlink" title="1. 查询从库状态"></a><strong>1. 查询从库状态</strong></h3><p>SHOW SLAVE STATUS\G</p>
-<p>具体指标查看：[<strong>关键字段解析</strong>]</p>
-<h3 id="2-结果发现"><a href="#2-结果发现" class="headerlink" title="2. 结果发现"></a><strong>2. 结果发现</strong></h3><p>Slave_SQL_Running_State  值为： <code>Waiting for table metadata lock</code></p>
+<p>具体指标查看：<a href="##%E5%85%B3%E9%94%AE%E5%AD%97%E6%AE%B5%E8%A7%A3%E6%9E%90"><strong>关键字段解析</strong></a></p>
+<h3 id="2-结果发现"><a href="#2-结果发现" class="headerlink" title="2. 结果发现"></a><strong>2. 结果发现</strong></h3><p>Slave_SQL_Running_State 值为： <code>Waiting for table metadata lock</code></p>
 <ul>
-<li>正常值：**<code>Reading event from the relay log</code>**</li>
+<li>正常值：<code>Reading event from the relay log</code></li>
 </ul>
 <p><strong>Slave_IO_State</strong></p>
 <ul>
@@ -439,7 +427,7 @@
 <ul>
 <li>正常值：<code>Yes</code>（等待主库发送事件）</li>
 </ul>
-<p>发现 Slave_SQL_Running_State  值异常，并没有出现Duplicate column、Unknown、Can’t  、Eorr 等能看出是错误的地方。</p>
+<p>发现 Slave_SQL_Running_State 值异常，并没有出现Duplicate column、Unknown、Can’t 、Eorr 等能看出是错误的地方。</p>
 <h3 id="3-针对Waiting-for-table-metadata-lock-排查分析"><a href="#3-针对Waiting-for-table-metadata-lock-排查分析" class="headerlink" title="3. 针对Waiting for table metadata lock 排查分析"></a><strong>3. 针对<code>Waiting for table metadata lock</code> 排查分析</strong></h3><p><strong>可能的原因分析</strong></p>
 <ol>
 <li>主库执行了 DDL 语句<ul>
@@ -461,14 +449,14 @@
 </li>
 </ol>
 <p>通过现象分析 主库执行DDL 语句但并未阻塞，主库正常访问，而且从库的DDL并未执行，说明DDL语句已经阻塞了，排除1，2可能性，查询并未锁表现象，排除4，最大可能就是3</p>
-<h3 id="4-查询未提交的事务"><a href="#4-查询未提交的事务" class="headerlink" title="4. 查询未提交的事务"></a><strong>4. 查询未提交的事务</strong></h3><p><strong>通show processlist</strong>   查到不少等待锁，但这些锁的时间都比较短 明显是DDL阻塞之后的查询也被塞</p>
+<h3 id="4-查询未提交的事务"><a href="#4-查询未提交的事务" class="headerlink" title="4. 查询未提交的事务"></a><strong>4. 查询未提交的事务</strong></h3><p><strong>通show processlist</strong> 查到不少等待锁，但这些锁的时间都比较短 明显是DDL阻塞之后的查询也被塞</p>
 <p><img src="C:\Users\Administrator\Desktop\image.png"></p>
 <p>执行以下 SQL 语句，检查 <code>INFORMATION_SCHEMA.INNODB_TRX</code> 表，定位未提交的事务：</p>
-<figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    trx_id,</span><br><span class="line">    trx_mysql_thread_id,</span><br><span class="line">    trx_query,</span><br><span class="line">    trx_state,</span><br><span class="line">    trx_wait_started,</span><br><span class="line">    TIMESTAMPDIFF(<span class="keyword">SECOND</span>, trx_wait_started, NOW()) <span class="keyword">AS</span> wait_time_seconds</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    INFORMATION_SCHEMA.INNODB_TRX;</span><br><span class="line">或</span><br><span class="line"> <span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"> <span class="keyword">FROM</span></span><br><span class="line">	 information_schema.INNODB_TRX</span><br><span class="line">	 <span class="keyword">WHERE</span> STATE<span class="operator">=</span><span class="string">'ACTIVE'</span>;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight sql"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    trx_id,</span><br><span class="line">    trx_mysql_thread_id,</span><br><span class="line">    trx_query,</span><br><span class="line">    trx_state,</span><br><span class="line">    trx_wait_started,</span><br><span class="line">    TIMESTAMPDIFF(<span class="keyword">SECOND</span>, trx_wait_started, NOW()) <span class="keyword">AS</span> wait_time_seconds</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">    INFORMATION_SCHEMA.INNODB_TRX;</span><br><span class="line">或</span><br><span class="line"> <span class="keyword">SELECT</span> <span class="operator">*</span></span><br><span class="line"> <span class="keyword">FROM</span></span><br><span class="line">     information_schema.INNODB_TRX</span><br><span class="line">     <span class="keyword">WHERE</span> STATE<span class="operator">=</span><span class="string">'ACTIVE'</span>;</span><br></pre></td></tr></tbody></table></figure>
 
 <p>查询结果显示存在 5 个未提交的事务，其中部分事务已运行超过 8 天，并且执行时间仍在持续增加。</p>
 <h3 id="5-关联-SHOW-PROCESSLIST-进行确认"><a href="#5-关联-SHOW-PROCESSLIST-进行确认" class="headerlink" title="5. 关联 SHOW PROCESSLIST 进行确认"></a><strong>5. 关联 <code>SHOW PROCESSLIST</code> 进行确认</strong></h3><p>通过 <code>trx_mysql_thread_id</code> 关联 <code>SHOW PROCESSLIST</code> 进一步确认事务详情，发现一个 ID 为 <code>19138566</code> 的线程，状态如下：</p>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Id        User        Host                     db                                               Command      Time      State                     Info</span><br><span class="line">19138566  cbcread     10.60.86.91:60369        ioscar_customersystem_customerbasic              Query        648905    Creating <span class="built_in">sort</span> index       SELECT concat(a.id) AS <span class="string">'案件ID'</span>, a.customer_name AS <span class="string">'客户'</span>,   ac.account_age AS <span class="string">'账龄段'</span>,</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Id        User        Host                     db                                               Command      Time      State                     Info</span><br><span class="line">19138566  cbcread     10.60.86.91:60369        ioscar_customersystem_customerbasic              Query        648905    Creating <span class="built_in">sort</span> index       SELECT concat(a.id) AS <span class="string">'案件ID'</span>, a.customer_name AS <span class="string">'客户'</span>,   ac.account_age AS <span class="string">'账龄段'</span>,</span><br></pre></td></tr></tbody></table></figure>
 
 <p>该查询已运行 <strong>648905 秒（约 8 天）</strong>，且执行时间仍在增长，表明该事务可能已进入死锁或长时间未提交，严重影响 MySQL 性能和主从同步。</p>
 <h3 id="6-终止异常事务"><a href="#6-终止异常事务" class="headerlink" title="6. 终止异常事务"></a><strong>6. 终止异常事务</strong></h3><p>由于该事务占用资源并可能阻塞主从同步，立即执行 <code>KILL</code> 命令终止该事务：</p>
@@ -498,7 +486,7 @@
 </ol>
 <p>至此，主从同步恢复正常，问题解决。</p>
 <h2 id="问题回顾"><a href="#问题回顾" class="headerlink" title="问题回顾"></a>问题回顾</h2><p>后续分析事故产生原理</p>
-<p>主要从是 <a href="#MySQL%E5%85%B1%E4%BA%AB%E9%94%81%E5%92%8C%E7%8B%AC%E5%8D%A0%E9%94%81">MySQL共享锁和独占锁</a> 分析</p>
+<p>主要从是 <a href="##MySQL%E5%85%B1%E4%BA%AB%E9%94%81%E5%92%8C%E7%8B%AC%E5%8D%A0%E9%94%81">MySQL共享锁和独占锁</a> 分析</p>
 <p><strong>发生 <code>Waiting for table metadata lock</code> 的原因</strong></p>
 <p>当 <code>ALTER TABLE</code> 需要 <code>X 锁</code>，但表上有正在执行的 <code>SELECT</code> 时，<code>ALTER TABLE</code> 会<strong>进入等待状态</strong>。这时 <strong>新的查询（SELECT）也会被阻塞</strong>，即使它只是想获取 S 锁！</p>
 <p><strong>📌 详细的锁定过程</strong></p>
@@ -616,8 +604,7 @@
 <td>发生复制错误，导致 I/O 线程终止，可能需要手动修复并重启 <code>START SLAVE</code>。</td>
 </tr>
 </tbody></table>
-<hr>
-<h3 id="Slave-SQL-Running-State-解析"><a href="#Slave-SQL-Running-State-解析" class="headerlink" title="Slave_SQL_Running_State 解析"></a><strong><code>Slave_SQL_Running_State</code> 解析</strong></h3><p><code>Slave_SQL_Running_State</code> 主要描述 <strong>从库 SQL 线程的当前状态</strong>，可以帮助判断从库是否正常执行 <strong>binlog 事件</strong>。</p>
+<h3 id="title-时光错位：一次MySQL主从同步延迟的排查与优化"><a href="#title-时光错位：一次MySQL主从同步延迟的排查与优化" class="headerlink" title="title: 时光错位：一次MySQL主从同步延迟的排查与优化"></a>title: 时光错位：一次MySQL主从同步延迟的排查与优化</h3><h3 id="title-时光错位：一次MySQL主从同步延迟的排查与优化-1"><a href="#title-时光错位：一次MySQL主从同步延迟的排查与优化-1" class="headerlink" title="title: 时光错位：一次MySQL主从同步延迟的排查与优化"></a>title: 时光错位：一次MySQL主从同步延迟的排查与优化</h3><h3 id="Slave-SQL-Running-State-解析"><a href="#Slave-SQL-Running-State-解析" class="headerlink" title="Slave_SQL_Running_State 解析"></a><strong><code>Slave_SQL_Running_State</code> 解析</strong></h3><p><code>Slave_SQL_Running_State</code> 主要描述 <strong>从库 SQL 线程的当前状态</strong>，可以帮助判断从库是否正常执行 <strong>binlog 事件</strong>。</p>
 <hr>
 <h3 id="📌-常见状态解析"><a href="#📌-常见状态解析" class="headerlink" title="📌 常见状态解析"></a><strong>📌 常见状态解析</strong></h3><p>执行 <code>SHOW SLAVE STATUS\G</code> 可能会看到以下 <code>Slave_SQL_Running_State</code>：</p>
 <table>
@@ -669,7 +656,7 @@
 <td><code>START SLAVE SQL_THREAD;</code> 重新启动</td>
 </tr>
 </tbody></table>
-<h2 id="MySQL共享锁和独占锁"><a href="#MySQL共享锁和独占锁" class="headerlink" title="MySQL共享锁和独占锁"></a>MySQL<strong>共享锁</strong>和<strong>独占锁</strong></h2><p>在 MySQL 数据库中，锁机制是确保数据一致性和完整性的重要手段，主要分为<strong>共享锁</strong>（Shared Lock，简称 S 锁）和<strong>独占锁</strong>（Exclusive Lock，简称 X 锁）。</p>
+<h2 id="MySQL共享锁和独占锁"><a href="#MySQL共享锁和独占锁" class="headerlink" title="MySQL共享锁和独占锁"></a>MySQL<strong>共享锁</strong>和独占锁</h2><p>在 MySQL 数据库中，锁机制是确保数据一致性和完整性的重要手段，主要分为<strong>共享锁</strong>（Shared Lock，简称 S 锁）和<strong>独占锁</strong>（Exclusive Lock，简称 X 锁）。</p>
 <h3 id="共享锁（S-锁）"><a href="#共享锁（S-锁）" class="headerlink" title="共享锁（S 锁）"></a>共享锁（S 锁）</h3><p>共享锁允许多个事务同时读取同一数据，而不会相互阻塞。当一个事务对数据加上共享锁后，其他事务也可以对该数据加共享锁，但不能加独占锁。这意味着在持有共享锁的情况下，数据只能被读取，不能被修改。</p>
 <p><strong>应用场景：</strong></p>
 <p>当需要读取某条记录并希望防止其他事务对其进行修改时，可以使用共享锁。在 MySQL 中，可以通过在 <code>SELECT</code> 语句后添加 <code>LOCK IN SHARE MODE</code> 来实现：</p>
@@ -756,15 +743,7 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/MySQL/">
-                                    <span class="chip bg-color">MySQL</span>
-                                </a>
-                            
-                                <a href="/tags/%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/">
-                                    <span class="chip bg-color">主从同步</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -850,9 +829,9 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="时光错位：一次MySQL主从同步延迟的排查与优化">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">时光错位：一次MySQL主从同步延迟的排查与优化</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -867,29 +846,13 @@
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/MySQL/" class="post-category">
-                                    MySQL
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            chenxueyao
                             
                         </span>
                     </div>
                 </div>
 
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/MySQL/">
-                        <span class="chip bg-color">MySQL</span>
-                    </a>
-                    
-                    <a href="/tags/%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/">
-                        <span class="chip bg-color">主从同步</span>
-                    </a>
-                    
-                </div>
                 
             </div>
         </div>
@@ -900,7 +863,7 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/02/26/hello-world/">
+                <a href="/2025/04/03/hello-world/">
                     <div class="card-image">
                         
                         
@@ -917,7 +880,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-02-26
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-04-03
                             </span>
                         <span class="publish-author">
                             
