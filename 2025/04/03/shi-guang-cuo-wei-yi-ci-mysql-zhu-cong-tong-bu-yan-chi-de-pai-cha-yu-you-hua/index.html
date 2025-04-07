@@ -6,9 +6,8 @@
     <meta charset="utf-8">
     <meta name="baidu-site-verification" content="codeva-S2nZYiUPkL">
     <meta name="google-site-verification" content="Vpd_F-MTIUtR8TAv7vtWW3CZIc9K7wW9nOLCtxaQV48" />
-    <meta name="keywords" content="restlessnight,github,不眠之夜の博客,不眠之夜的博客,博客,不眠之夜,技术,java,JAVA,spring,springboot,springcloud,spring cloud alibaba,数据库,mysql,tidb,ocenbase,doris,redis,中间件,mq,rocketmq,nacos,feign,分布式,zookper,多线程,高并发">
-    <meta name="description" content="
-1234567title : 时光错位：一次MySQL主从同步延迟的排查与优化tags : [MySQL,主从同步]date : 2025-04-03 17:06:53keywords : MySQL,主从同步,mysqlsummary ">
+    <meta name="keywords" content="MySQL,主从同步,mysql">
+    <meta name="description" content="时光错位：一次MySQL主从同步延迟的排查与优化问题出现背景在生产环境中，执行 ALTER TABLE 语句向某张大表新增字段后，主从同步出现严重延迟。从库 SHOW SLAVE STATUS 显示 Seconds_Behind_Maste">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -20,7 +19,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>不眠之夜の博客</title>
+    <title>时光错位：一次MySQL主从同步延迟的排查与优化 | 不眠之夜の博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="canonical" href="https://blog.restlessnight.cn" />
 
@@ -343,12 +342,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title"></h1>
+                    <h1 class="description center-align post-title">时光错位：一次MySQL主从同步延迟的排查与优化</h1>
                 </div>
             </div>
         </div>
@@ -370,12 +369,29 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/MySQL/">
+                                <span class="chip bg-color">MySQL</span>
+                            </a>
+                        
+                            <a href="/tags/%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/">
+                                <span class="chip bg-color">主从同步</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/MySQL/" class="post-category">
+                                MySQL
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -408,11 +424,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <hr>
-<figure class="highlight yaml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">title :</span> <span class="string">时光错位：一次MySQL主从同步延迟的排查与优化</span></span><br><span class="line"><span class="attr">tags :</span> [<span class="string">MySQL</span>,<span class="string">主从同步</span>]</span><br><span class="line"><span class="attr">date :</span> <span class="number">2025-04-03 17:06:53</span></span><br><span class="line"><span class="attr">keywords :</span> <span class="string">MySQL,主从同步,mysql</span></span><br><span class="line"><span class="attr">summary :</span></span><br><span class="line"><span class="attr">top :</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">cover :</span> <span class="literal">true</span></span><br></pre></td></tr></tbody></table></figure>
-
-<hr>
-<h2 id="时光错位：一次MySQL主从同步延迟的排查与优化"><a href="#时光错位：一次MySQL主从同步延迟的排查与优化" class="headerlink" title="时光错位：一次MySQL主从同步延迟的排查与优化"></a>时光错位：一次MySQL主从同步延迟的排查与优化</h2><h2 id="问题出现背景"><a href="#问题出现背景" class="headerlink" title="问题出现背景"></a>问题出现背景</h2><p>在生产环境中，执行 <code>ALTER TABLE</code> 语句向某张大表新增字段后，主从同步出现严重延迟。从库 <code>SHOW SLAVE STATUS</code> 显示 <code>Seconds_Behind_Master</code> 迅速增长，从正常的几秒飙升至数小时甚至上万秒，同时从库查询开始频繁超时，业务访问受阻。<code>SHOW PROCESSLIST</code> 发现大量查询处于 <code>Waiting for table metadata lock</code> 或 <code>Waiting for table flush</code> 状态，导致连接数剧增，最终触及 <code>max_connections</code> 限制，影响整个系统的稳定性。</p>
+                <h2 id="时光错位：一次MySQL主从同步延迟的排查与优化"><a href="#时光错位：一次MySQL主从同步延迟的排查与优化" class="headerlink" title="时光错位：一次MySQL主从同步延迟的排查与优化"></a>时光错位：一次MySQL主从同步延迟的排查与优化</h2><h2 id="问题出现背景"><a href="#问题出现背景" class="headerlink" title="问题出现背景"></a>问题出现背景</h2><p>在生产环境中，执行 <code>ALTER TABLE</code> 语句向某张大表新增字段后，主从同步出现严重延迟。从库 <code>SHOW SLAVE STATUS</code> 显示 <code>Seconds_Behind_Master</code> 迅速增长，从正常的几秒飙升至数小时甚至上万秒，同时从库查询开始频繁超时，业务访问受阻。<code>SHOW PROCESSLIST</code> 发现大量查询处于 <code>Waiting for table metadata lock</code> 或 <code>Waiting for table flush</code> 状态，导致连接数剧增，最终触及 <code>max_connections</code> 限制，影响整个系统的稳定性。</p>
 <h2 id="问题解析"><a href="#问题解析" class="headerlink" title="问题解析"></a><strong>问题解析</strong></h2><h3 id="1-查询从库状态"><a href="#1-查询从库状态" class="headerlink" title="1. 查询从库状态"></a><strong>1. 查询从库状态</strong></h3><p>SHOW SLAVE STATUS\G</p>
 <p>具体指标查看：<a href="##%E5%85%B3%E9%94%AE%E5%AD%97%E6%AE%B5%E8%A7%A3%E6%9E%90"><strong>关键字段解析</strong></a></p>
 <h3 id="2-结果发现"><a href="#2-结果发现" class="headerlink" title="2. 结果发现"></a><strong>2. 结果发现</strong></h3><p>Slave_SQL_Running_State 值为： <code>Waiting for table metadata lock</code></p>
@@ -743,7 +755,15 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/MySQL/">
+                                    <span class="chip bg-color">MySQL</span>
+                                </a>
+                            
+                                <a href="/tags/%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/">
+                                    <span class="chip bg-color">主从同步</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -829,9 +849,9 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="时光错位：一次MySQL主从同步延迟的排查与优化">
                         
-                        <span class="card-title"></span>
+                        <span class="card-title">时光错位：一次MySQL主从同步延迟的排查与优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -846,13 +866,29 @@
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            chenxueyao
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/MySQL/" class="post-category">
+                                    MySQL
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/MySQL/">
+                        <span class="chip bg-color">MySQL</span>
+                    </a>
+                    
+                    <a href="/tags/%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/">
+                        <span class="chip bg-color">主从同步</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
