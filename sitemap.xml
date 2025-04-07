@@ -85,7 +85,7 @@
 
   <url>
     <loc>https://blog.restlessnight.cn/</loc>
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -93,14 +93,14 @@
   
   <url>
     <loc>https://blog.restlessnight.cn/tags/MySQL/</loc>
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.restlessnight.cn/tags/%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/</loc>
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -109,14 +109,14 @@
   
   <url>
     <loc>https://blog.restlessnight.cn/categories/hello/</loc>
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.restlessnight.cn/categories/MySQL/</loc>
-    <lastmod>2025-04-03</lastmod>
+    <lastmod>2025-04-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
