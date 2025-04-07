@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://blog.restlessnight.cn/tags/index.html</loc>
+    <loc>https://blog.restlessnight.cn/404.html</loc>
     
     <lastmod>2024-03-01</lastmod>
     
@@ -29,16 +29,7 @@
   </url>
   
   <url>
-    <loc>https://blog.restlessnight.cn/friends/index.html</loc>
-    
-    <lastmod>2024-03-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.restlessnight.cn/contact/index.html</loc>
+    <loc>https://blog.restlessnight.cn/googleacf79601b3be0eb5.html</loc>
     
     <lastmod>2024-03-01</lastmod>
     
@@ -56,6 +47,15 @@
   </url>
   
   <url>
+    <loc>https://blog.restlessnight.cn/contact/index.html</loc>
+    
+    <lastmod>2024-03-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.restlessnight.cn/categories/index.html</loc>
     
     <lastmod>2024-03-01</lastmod>
@@ -65,18 +65,18 @@
   </url>
   
   <url>
-    <loc>https://blog.restlessnight.cn/googleacf79601b3be0eb5.html</loc>
+    <loc>https://blog.restlessnight.cn/friends/index.html</loc>
     
-    <lastmod>2024-02-27</lastmod>
+    <lastmod>2024-03-01</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://blog.restlessnight.cn/404.html</loc>
+    <loc>https://blog.restlessnight.cn/tags/index.html</loc>
     
-    <lastmod>2024-02-27</lastmod>
+    <lastmod>2024-03-01</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
