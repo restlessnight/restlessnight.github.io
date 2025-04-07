@@ -3,8 +3,8 @@ https://blog.restlessnight.cn/2025/04/03/hello-world/
 https://blog.restlessnight.cn/404.html
 https://blog.restlessnight.cn/googleacf79601b3be0eb5.html
 https://blog.restlessnight.cn/about/index.html
-https://blog.restlessnight.cn/contact/index.html
 https://blog.restlessnight.cn/categories/index.html
+https://blog.restlessnight.cn/contact/index.html
 https://blog.restlessnight.cn/friends/index.html
 https://blog.restlessnight.cn/tags/index.html
 https://blog.restlessnight.cn/
