@@ -441,29 +441,29 @@
 <h1 id="快慢指针法详解（Floyd’s-Tortoise-and-Hare-Algorithm）"><a href="#快慢指针法详解（Floyd’s-Tortoise-and-Hare-Algorithm）" class="headerlink" title="快慢指针法详解（Floyd’s Tortoise and Hare Algorithm）"></a>快慢指针法详解（Floyd’s Tortoise and Hare Algorithm）</h1><h2 id="📌-简介"><a href="#📌-简介" class="headerlink" title="📌 简介"></a>📌 简介</h2><p>快慢指针法（Floyd’s Tortoise and Hare Algorithm）是一种优雅而高效的算法技巧，广泛应用于链表、数组等线性数据结构的问题求解。它以“快慢”两个指针的相对速度差为核心，通过巧妙的移动策略解决诸如 <strong>环形检测</strong>、<strong>中点查找</strong>、<strong>重复元素定位</strong> 等问题。该方法由 Robert W. Floyd 提出，因其形象地将快慢指针比喻为“乌龟与兔子”而得名。</p>
 <p>常用于判断链表是否有环、找中点、定位环起点或数组中重复元素等问题。</p>
 <hr>
-<h2 id="🚀-基本原理"><a href="#🚀-基本原理" class="headerlink" title="🚀 基本原理"></a>🚀 基本原理</h2><p>快慢指针法的核心在于利用两个指针以不同速度遍历数据结构：</p>
+<h2 id="🚀-基本原理"><a href="#🚀-基本原理" class="headerlink" title="🚀 基本原理"></a>🚀 基本原理</h2><p>🧠 快慢指针法的核心在于利用两个指针以不同速度遍历数据结构：</p>
 <ul>
 <li><strong>慢指针（slow pointer，乌龟）</strong>：每次移动 1 步；</li>
 <li><strong>快指针（fast pointer，兔子）</strong>：每次移动 2 步。</li>
 </ul>
-<p>根据问题的特性：</p>
+<p>🧠 根据问题的特性：</p>
 <ul>
 <li>如果数据结构中存在环，快慢指针最终会在环内相遇；</li>
 <li>如果不存在环，快指针会率先到达结构的末尾（例如链表的 <code>null</code> 或数组边界）。</li>
 </ul>
-<h3 id="🚀-思路"><a href="#🚀-思路" class="headerlink" title="🚀 思路"></a>🚀 思路</h3><p>Floyd 判圈算法（也称“乌龟与兔子算法”）通过快慢指针解决此问题，分为两个阶段：</p>
-<ol>
+<p>🧠 Floyd 判圈算法（也称“乌龟与兔子算法”）通过快慢指针解决此问题，分为两个阶段：</p>
+<ul>
 <li><strong>检测环并找到相遇点</strong>：使用快慢指针，快指针每次走 2 步，慢指针每次走 1 步，若存在环，两者会在环内相遇。</li>
 <li><strong>定位环入口</strong>：从链表头部和相遇点同时以慢速（每次 1 步）前进，两者相遇的节点即为环入口。</li>
-</ol>
-<h3 id="🧠-详细解释与数学证明"><a href="#🧠-详细解释与数学证明" class="headerlink" title="🧠 详细解释与数学证明"></a>🧠 详细解释与数学证明</h3><h5 id="定义变量"><a href="#定义变量" class="headerlink" title="定义变量"></a>定义变量</h5><ul>
+</ul>
+<h3 id="🧠-详细解释与数学证明"><a href="#🧠-详细解释与数学证明" class="headerlink" title="🧠 详细解释与数学证明"></a>🧠 详细解释与数学证明</h3><ul>
 <li>L ：环外部分的长度（从链表头到环入口的步数）。</li>
 <li>C ：环的长度（环内节点总数）。</li>
 <li>k ：慢指针在环内走的步数（相遇时）。</li>
 <li>相遇点：快慢指针第一次相遇的位置。</li>
 <li>环入口：链表进入环的第一个节点。</li>
 </ul>
-<h3 id="🧠-为什么能相遇？（数学推导）"><a href="#🧠-为什么能相遇？（数学推导）" class="headerlink" title="🧠 为什么能相遇？（数学推导）"></a>🧠 为什么能相遇？（数学推导）</h3><ul>
+<h3 id="❓-为什么能相遇？（数学推导）"><a href="#❓-为什么能相遇？（数学推导）" class="headerlink" title="❓ 为什么能相遇？（数学推导）"></a>❓ 为什么能相遇？（数学推导）</h3><ul>
 <li>初始时，快指针和慢指针都从链表头部开始。</li>
 <li>慢指针速度为 1，设其到达环入口时走了 L 步，此时位置为环入口。</li>
 <li>快指针速度为 2，此时快指针走了 2L步，可能已在环内绕了几圈。</li>
