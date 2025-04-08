@@ -451,26 +451,54 @@
 <li>如果数据结构中存在环，快慢指针最终会在环内相遇；</li>
 <li>如果不存在环，快指针会率先到达结构的末尾（例如链表的 <code>null</code> 或数组边界）。</li>
 </ul>
-<h3 id="🧠-为什么能相遇？（数学推导）"><a href="#🧠-为什么能相遇？（数学推导）" class="headerlink" title="🧠 为什么能相遇？（数学推导）"></a>🧠 为什么能相遇？（数学推导）</h3><p>假设一个链表存在环，环的长度为 CC，环外部分长度为 LL，总长度为 N=L+CN = L + C。快指针速度是慢指针的两倍，设慢指针进入环时走了 tt 步，则：</p>
-<ul>
-<li>慢指针位置：tt；</li>
-<li>快指针位置：2t2t。</li>
+<h3 id="🚀-思路"><a href="#🚀-思路" class="headerlink" title="🚀 思路"></a>🚀 思路</h3><p>Floyd 判圈算法（也称“乌龟与兔子算法”）通过快慢指针解决此问题，分为两个阶段：</p>
+<ol>
+<li><strong>检测环并找到相遇点</strong>：使用快慢指针，快指针每次走 2 步，慢指针每次走 1 步，若存在环，两者会在环内相遇。</li>
+<li><strong>定位环入口</strong>：从链表头部和相遇点同时以慢速（每次 1 步）前进，两者相遇的节点即为环入口。</li>
+</ol>
+<h3 id="🧠-详细解释与数学证明"><a href="#🧠-详细解释与数学证明" class="headerlink" title="🧠 详细解释与数学证明"></a>🧠 详细解释与数学证明</h3><h5 id="定义变量"><a href="#定义变量" class="headerlink" title="定义变量"></a>定义变量</h5><ul>
+<li>L ：环外部分的长度（从链表头到环入口的步数）。</li>
+<li>C ：环的长度（环内节点总数）。</li>
+<li>k ：慢指针在环内走的步数（相遇时）。</li>
+<li>相遇点：快慢指针第一次相遇的位置。</li>
+<li>环入口：链表进入环的第一个节点。</li>
 </ul>
-<p>当两者相遇时，设慢指针在环内走了 kk 步，则：</p>
-<ul>
-<li>慢指针总步数：L+kL + k；</li>
-<li>快指针总步数：2(L+k)2(L + k)。</li>
+<h3 id="🧠-为什么能相遇？（数学推导）"><a href="#🧠-为什么能相遇？（数学推导）" class="headerlink" title="🧠 为什么能相遇？（数学推导）"></a>🧠 为什么能相遇？（数学推导）</h3><ul>
+<li>初始时，快指针和慢指针都从链表头部开始。</li>
+<li>慢指针速度为 1，设其到达环入口时走了 L 步，此时位置为环入口。</li>
+<li>快指针速度为 2，此时快指针走了 2L步，可能已在环内绕了几圈。</li>
+<li>相遇时：<ul>
+<li>慢指针总步数：L+k（环外 L 步 + 环内 k步）。</li>
+<li>快指针总步数：2(L+k) （速度是慢指针的两倍）。</li>
 </ul>
-<p>由于快指针可能在环内多绕了几圈，相遇时两者的位置在环内等价（模 CC），即： 2(L+k)−(L+k)=nC2(L + k) - (L + k) = nC 化简得： L+k=nCL + k = nC 其中 nn 是快指针绕环的圈数。这表明，快慢指针一定会在环内相遇，且相遇点与环的起点有一定关系。</p>
-<h3 id="❓-为什么能在环入口相遇？"><a href="#❓-为什么能在环入口相遇？" class="headerlink" title="❓ 为什么能在环入口相遇？"></a>❓ 为什么能在环入口相遇？</h3><p>设相遇点距环入口还有 mm 步：</p>
-<ul>
-<li>快慢指针相遇后，从 <code>head</code> 重新出发一个指针 <code>ptr1</code>，另一个指针 <code>ptr2</code> 从相遇点出发；</li>
-<li>两个指针每次走一步，当两者再次相遇时，正好在环的入口。</li>
+</li>
+<li>由于快指针在环内可能多绕了几圈，设其绕了 n 圈（n≥0），则：<br>​									2(L+k)=L+k+nC<br>化简：<br>​									L+k=nC<br>这表明，快慢指针相遇时，慢指针在环内走了 k 步，快指针在环内走了 k+nC步，相遇点距离环入口 k步（环内位置为 k mod  C ）。</li>
 </ul>
-<p>这是因为：</p>
+<h3 id="❓-为什么能在环入口相遇？"><a href="#❓-为什么能在环入口相遇？" class="headerlink" title="❓ 为什么能在环入口相遇？"></a>❓ 为什么能在环入口相遇？</h3><ul>
+<li><p>相遇后，将一个指针（记为 ptr1）重置到链表头部，另一个指针（记为 ptr2）留在相遇点。</p>
+<p>两者以相同速度（每次 1 步）前进：</p>
 <ul>
-<li>相遇时：慢指针走了 L+kL + k 步；</li>
-<li>L+k=nCL + k = nC，所以从头走 LL 步，和从相遇点走 C−kC - k 步，将在环入口相遇。</li>
+<li>ptr1 从头走 L步到达环入口。</li>
+<li>ptr2 从相遇点（距环入口 k 步）走：<ul>
+<li>相遇点到环入口的距离为 C−k（环内逆向距离）。</li>
+<li>但从相遇点继续向前走 L 步：L=nC−k  ptr2 从相遇点走 L  步，相当于在环内走 nC−k 步后回到环入口（因为 nC 为整圈）。<br>因此，ptr1 和 ptr2 会在环入口相遇。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="📝-图示说明（文字描述）"><a href="#📝-图示说明（文字描述）" class="headerlink" title="📝 图示说明（文字描述）"></a>📝 图示说明（文字描述）</h3><p>假设链表为：A -&gt; B -&gt; C -&gt; D -&gt; E -&gt; C（环入口为 C）。</p>
+<ul>
+<li>环外：A -&gt; B（L=2）。</li>
+<li>环内：C -&gt; D -&gt; E -&gt; C（C=3）。</li>
+<li>快慢指针：<ul>
+<li>慢指针：A -&gt; B -&gt; C -&gt; D（走 3 步）。</li>
+<li>快指针：A -&gt; C -&gt; E -&gt; D（走 6 步），在 D 相遇。</li>
+</ul>
+</li>
+<li>相遇点 D 距环入口 C 为 1 步（k=1）。</li>
+<li>L+k=2+1=3=1⋅C。</li>
+<li>ptr1 从 A 走 2 步到 C，ptr2 从 D 走 2 步（D -&gt; E -&gt; C），在 C 相遇。</li>
 </ul>
 <hr>
 <h2 id="👣-快慢指针法的一般流程（简洁版）"><a href="#👣-快慢指针法的一般流程（简洁版）" class="headerlink" title="👣 快慢指针法的一般流程（简洁版）"></a>👣 快慢指针法的一般流程（简洁版）</h2><ol>
@@ -492,6 +520,11 @@
 <h3 id="4-数组中查找重复元素"><a href="#4-数组中查找重复元素" class="headerlink" title="4. 数组中查找重复元素"></a>4. 数组中查找重复元素</h3><p><strong>场景描述：</strong> 在数组中，我们可能需要检测是否有重复的元素。通过将数组看作一个链表，我们可以利用快慢指针来有效地找到重复元素。</p>
 <figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findDuplicate</span><span class="params">(<span class="type">int</span>[] nums)</span> {</span><br><span class="line">    <span class="type">int</span> <span class="variable">slow</span> <span class="operator">=</span> nums[<span class="number">0</span>];</span><br><span class="line">    <span class="type">int</span> <span class="variable">fast</span> <span class="operator">=</span> nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">do</span> {</span><br><span class="line">        slow = nums[slow];</span><br><span class="line">        fast = nums[nums[fast]];</span><br><span class="line">    } <span class="keyword">while</span> (slow != fast);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">ptr1</span> <span class="operator">=</span> nums[<span class="number">0</span>];</span><br><span class="line">    <span class="type">int</span> <span class="variable">ptr2</span> <span class="operator">=</span> slow;</span><br><span class="line">    <span class="keyword">while</span> (ptr1 != ptr2) {</span><br><span class="line">        ptr1 = nums[ptr1];</span><br><span class="line">        ptr2 = nums[ptr2];</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> ptr1;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
+<p>说明：</p>
+<ul>
+<li>在使用这种算法时，数组的元素 <strong>必须</strong> 在有效的索引范围内，即 <code>nums[i]</code> 必须满足 <code>0 &lt;= nums[i] &lt; 数组长度</code>。</li>
+<li>如果数组中的元素超出了有效索引范围，那么程序会抛出 <code>ArrayIndexOutOfBoundsException</code> 错误。<br>这个限制是快慢指针法在数组中应用时的一个重要前提，确保可以通过元素值来安全地访问数组中的其他元素。</li>
+</ul>
 <h3 id="5-查找链表中倒数第-N-个节点（固定差快慢指针）"><a href="#5-查找链表中倒数第-N-个节点（固定差快慢指针）" class="headerlink" title="5. 查找链表中倒数第 N 个节点（固定差快慢指针）"></a>5. 查找链表中倒数第 N 个节点（固定差快慢指针）</h3><p><strong>场景描述：</strong> 在链表中，我们可能需要找到倒数第 N 个节点。通过让快指针先走 N 步，再让慢指针和快指针同时前进，直到快指针到达链表末尾，慢指针即为倒数第 N 个节点。</p>
 <figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">findNthFromEnd</span><span class="params">(ListNode head, <span class="type">int</span> n)</span> {</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// fast 先走 n 步</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) {</span><br><span class="line">        <span class="keyword">if</span> (fast == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        fast = fast.next;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// fast 和 slow 同步前进</span></span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span>) {</span><br><span class="line">        fast = fast.next;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> slow;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
@@ -502,15 +535,6 @@
 <h3 id="7-找到两个链表的相交节点"><a href="#7-找到两个链表的相交节点" class="headerlink" title="7. 找到两个链表的相交节点"></a>7. 找到两个链表的相交节点</h3><p><strong>场景描述：</strong> 在两个链表中，可能有一部分节点是共享的。使用快慢指针的技巧，我们可以找到两个链表相交的第一个节点。</p>
 <figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">getIntersectionNode</span><span class="params">(ListNode headA, ListNode headB)</span> {</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">a</span> <span class="operator">=</span> headA, b = headB;</span><br><span class="line">    <span class="keyword">while</span> (a != b) {</span><br><span class="line">        a = (a == <span class="literal">null</span>) ? headB : a.next;</span><br><span class="line">        b = (b == <span class="literal">null</span>) ? headA : b.next;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
-<hr>
-<h2 id="🔁-正确的链表环示例"><a href="#🔁-正确的链表环示例" class="headerlink" title="🔁 正确的链表环示例"></a>🔁 正确的链表环示例</h2><figure class="highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1 → 2 → 3 → 4 → 5</span><br><span class="line">              ↓</span><br><span class="line">              6 → 7 → 8</span><br><span class="line">                   ↑    ↓</span><br><span class="line">                   ←←←←←</span><br></pre></td></tr></tbody></table></figure>
-
-<ul>
-<li>节点 5 指向 6，开始进入环。</li>
-<li>节点 8 再次指向 6，形成环。</li>
-<li>环的起始节点是 6，长度为 3。</li>
-</ul>
-<p>快慢指针从 head 出发最终在环内某点相遇，再从头与相遇点同时出发会在 6 相遇。</p>
 <hr>
 <h2 id="📈-时间与空间复杂度分析"><a href="#📈-时间与空间复杂度分析" class="headerlink" title="📈 时间与空间复杂度分析"></a>📈 时间与空间复杂度分析</h2><table>
 <thead>
@@ -578,10 +602,8 @@
 <li>数组类问题的环判断（如找重复数）。</li>
 </ul>
 <hr>
-<h2 id="📎-快慢指针的非典型变种与对比算法"><a href="#📎-快慢指针的非典型变种与对比算法" class="headerlink" title="📎 快慢指针的非典型变种与对比算法"></a>📎 快慢指针的非典型变种与对比算法</h2><p>虽然“快慢指针”一词常用于速度不同的双指针同步推进，但并非所有使用双指针的算法都属于快慢指针法。</p>
-<p>以下是一种常见的“窗口内趋势检测”方法，看起来像双指针，实则与快慢指针的核心思想不同：</p>
-<h3 id="案例：局部趋势检测"><a href="#案例：局部趋势检测" class="headerlink" title="案例：局部趋势检测"></a>案例：局部趋势检测</h3><p>数据是按时间排序的，例如一年中每个月的数据，或一个月中每天的数据。</p>
-<p><strong>问题描述：</strong></p>
+<h2 id="📎-快慢指针的非典型变种与对比算法"><a href="#📎-快慢指针的非典型变种与对比算法" class="headerlink" title="📎 快慢指针的非典型变种与对比算法"></a>📎 快慢指针的非典型变种与对比算法</h2><p>虽然“快慢指针”一词常用于速度不同的双指针同步推进，但并非所有使用双指针的算法都属于快慢指针法。<br>以下是一种常见的“窗口内趋势检测”方法，看起来像双指针，实则与快慢指针的核心思想不同：</p>
+<h3 id="案例：局部趋势检测"><a href="#案例：局部趋势检测" class="headerlink" title="案例：局部趋势检测"></a>案例：局部趋势检测</h3><p>数据是按时间排序的，例如一年中每个月的数据，或一个月中每天的数据。<br><strong>问题描述：</strong></p>
 <blockquote>
 <p>在任意一个点，判断其后 5 天以内是否有超过 ±30% 的涨幅或跌幅。</p>
 </blockquote>
