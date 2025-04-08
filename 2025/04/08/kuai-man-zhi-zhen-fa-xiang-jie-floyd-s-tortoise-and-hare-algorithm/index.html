@@ -1,0 +1,1390 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="codeva-S2nZYiUPkL">
+    <meta name="google-site-verification" content="Vpd_F-MTIUtR8TAv7vtWW3CZIc9K7wW9nOLCtxaQV48" />
+    <meta name="keywords" content="算法,Algorithm,指针,快慢指针,LeetCode">
+    <meta name="description" content="
+快慢指针法详解（Floyd’s Tortoise and Hare Algorithm）📌 简介快慢指针法（Floyd’s Tortoise and Hare Algorithm）是一种优雅而高效的算法技巧，广泛应用于链表、数组等线性数">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>快慢指针法详解（Floyd&#39;s Tortoise and Hare Algorithm） | 不眠之夜の博客</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="canonical" href="https://blog.restlessnight.cn" />
+
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.1.1">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="不眠之夜の博客" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    <!-- 
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                     -->
+                    <span class="logo-span">不眠之夜の博客</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">不眠之夜の博客</div>
+        <div class="logo-desc">
+            
+            restless night,restlessnight,github,不眠之夜の博客,不眠之夜的博客,博客,不眠之夜,技术,java,JAVA,spring,springboot,springcloud,spring cloud alibaba,数据库,mysql,tidb,ocenbase,doris,redis,中间件,mq,rocketmq,nacos,feign,分布式,zookper,多线程,高并发
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/restlessnight" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/restlessnight" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">快慢指针法详解（Floyd&#39;s Tortoise and Hare Algorithm）</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">算法</span>
+                            </a>
+                        
+                            <a href="/tags/Algorithm/">
+                                <span class="chip bg-color">Algorithm</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%8C%87%E9%92%88/">
+                                <span class="chip bg-color">指针</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/">
+                                <span class="chip bg-color">快慢指针</span>
+                            </a>
+                        
+                            <a href="/tags/LeetCode/">
+                                <span class="chip bg-color">LeetCode</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                算法
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2025-04-08
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <hr>
+<h1 id="快慢指针法详解（Floyd’s-Tortoise-and-Hare-Algorithm）"><a href="#快慢指针法详解（Floyd’s-Tortoise-and-Hare-Algorithm）" class="headerlink" title="快慢指针法详解（Floyd’s Tortoise and Hare Algorithm）"></a>快慢指针法详解（Floyd’s Tortoise and Hare Algorithm）</h1><h2 id="📌-简介"><a href="#📌-简介" class="headerlink" title="📌 简介"></a>📌 简介</h2><p>快慢指针法（Floyd’s Tortoise and Hare Algorithm）是一种优雅而高效的算法技巧，广泛应用于链表、数组等线性数据结构的问题求解。它以“快慢”两个指针的相对速度差为核心，通过巧妙的移动策略解决诸如 <strong>环形检测</strong>、<strong>中点查找</strong>、<strong>重复元素定位</strong> 等问题。该方法由 Robert W. Floyd 提出，因其形象地将快慢指针比喻为“乌龟与兔子”而得名。</p>
+<p>常用于判断链表是否有环、找中点、定位环起点或数组中重复元素等问题。</p>
+<hr>
+<h2 id="🚀-基本原理"><a href="#🚀-基本原理" class="headerlink" title="🚀 基本原理"></a>🚀 基本原理</h2><p>快慢指针法的核心在于利用两个指针以不同速度遍历数据结构：</p>
+<ul>
+<li><strong>慢指针（slow pointer，乌龟）</strong>：每次移动 1 步；</li>
+<li><strong>快指针（fast pointer，兔子）</strong>：每次移动 2 步。</li>
+</ul>
+<p>根据问题的特性：</p>
+<ul>
+<li>如果数据结构中存在环，快慢指针最终会在环内相遇；</li>
+<li>如果不存在环，快指针会率先到达结构的末尾（例如链表的 <code>null</code> 或数组边界）。</li>
+</ul>
+<h3 id="🧠-为什么能相遇？（数学推导）"><a href="#🧠-为什么能相遇？（数学推导）" class="headerlink" title="🧠 为什么能相遇？（数学推导）"></a>🧠 为什么能相遇？（数学推导）</h3><p>假设一个链表存在环，环的长度为 CC，环外部分长度为 LL，总长度为 N=L+CN = L + C。快指针速度是慢指针的两倍，设慢指针进入环时走了 tt 步，则：</p>
+<ul>
+<li>慢指针位置：tt；</li>
+<li>快指针位置：2t2t。</li>
+</ul>
+<p>当两者相遇时，设慢指针在环内走了 kk 步，则：</p>
+<ul>
+<li>慢指针总步数：L+kL + k；</li>
+<li>快指针总步数：2(L+k)2(L + k)。</li>
+</ul>
+<p>由于快指针可能在环内多绕了几圈，相遇时两者的位置在环内等价（模 CC），即： 2(L+k)−(L+k)=nC2(L + k) - (L + k) = nC 化简得： L+k=nCL + k = nC 其中 nn 是快指针绕环的圈数。这表明，快慢指针一定会在环内相遇，且相遇点与环的起点有一定关系。</p>
+<h3 id="❓-为什么能在环入口相遇？"><a href="#❓-为什么能在环入口相遇？" class="headerlink" title="❓ 为什么能在环入口相遇？"></a>❓ 为什么能在环入口相遇？</h3><p>设相遇点距环入口还有 mm 步：</p>
+<ul>
+<li>快慢指针相遇后，从 <code>head</code> 重新出发一个指针 <code>ptr1</code>，另一个指针 <code>ptr2</code> 从相遇点出发；</li>
+<li>两个指针每次走一步，当两者再次相遇时，正好在环的入口。</li>
+</ul>
+<p>这是因为：</p>
+<ul>
+<li>相遇时：慢指针走了 L+kL + k 步；</li>
+<li>L+k=nCL + k = nC，所以从头走 LL 步，和从相遇点走 C−kC - k 步，将在环入口相遇。</li>
+</ul>
+<hr>
+<h2 id="👣-快慢指针法的一般流程（简洁版）"><a href="#👣-快慢指针法的一般流程（简洁版）" class="headerlink" title="👣 快慢指针法的一般流程（简洁版）"></a>👣 快慢指针法的一般流程（简洁版）</h2><ol>
+<li>初始化快慢指针（一般都指向起点）；</li>
+<li>快指针每次移动两步，慢指针每次移动一步；</li>
+<li>依据场景判断终止条件（如是否相遇、是否到达终点等）；</li>
+<li>若需要定位特定位置（如环起点），可引入第三指针从头与慢指针同步推进。</li>
+</ol>
+<hr>
+<h2 id="🧪-常见应用及深入解析"><a href="#🧪-常见应用及深入解析" class="headerlink" title="🧪 常见应用及深入解析"></a>🧪 常见应用及深入解析</h2><h3 id="1-判断链表是否有环"><a href="#1-判断链表是否有环" class="headerlink" title="1. 判断链表是否有环"></a>1. 判断链表是否有环</h3><p><strong>场景描述：</strong> 我们在链表中可能会遇到环形结构的问题，例如，链表中的某个节点指向之前的某个节点，形成一个环。这种情况会导致传统的遍历方法进入无限循环，而快慢指针能够有效地检测环的存在。</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasCycle</span><span class="params">(ListNode head)</span> {</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) {</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">        <span class="keyword">if</span> (slow == fast) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="2-找到环的起始节点"><a href="#2-找到环的起始节点" class="headerlink" title="2. 找到环的起始节点"></a>2. 找到环的起始节点</h3><p><strong>场景描述：</strong> 当链表中存在环时，除了判断环的存在，我们可能还需要定位环的起始节点。利用快慢指针相遇的特性，我们可以通过从头和相遇点同时开始遍历来找到环的起点。</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">detectCycle</span><span class="params">(ListNode head)</span> {</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head, fast = head;</span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) {</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">        <span class="keyword">if</span> (slow == fast) {</span><br><span class="line">            <span class="type">ListNode</span> <span class="variable">ptr</span> <span class="operator">=</span> head;</span><br><span class="line">            <span class="keyword">while</span> (ptr != slow) {</span><br><span class="line">                ptr = ptr.next;</span><br><span class="line">                slow = slow.next;</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">return</span> ptr;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="3-寻找链表中点"><a href="#3-寻找链表中点" class="headerlink" title="3. 寻找链表中点"></a>3. 寻找链表中点</h3><p><strong>场景描述：</strong> 在链表中，我们常常需要找到链表的中间节点。通过使用快慢指针，快指针以两倍的速度前进，慢指针则每次走一步，当快指针到达末尾时，慢指针恰好位于链表的中点。</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">findMiddle</span><span class="params">(ListNode head)</span> {</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) {</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> slow;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="4-数组中查找重复元素"><a href="#4-数组中查找重复元素" class="headerlink" title="4. 数组中查找重复元素"></a>4. 数组中查找重复元素</h3><p><strong>场景描述：</strong> 在数组中，我们可能需要检测是否有重复的元素。通过将数组看作一个链表，我们可以利用快慢指针来有效地找到重复元素。</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">findDuplicate</span><span class="params">(<span class="type">int</span>[] nums)</span> {</span><br><span class="line">    <span class="type">int</span> <span class="variable">slow</span> <span class="operator">=</span> nums[<span class="number">0</span>];</span><br><span class="line">    <span class="type">int</span> <span class="variable">fast</span> <span class="operator">=</span> nums[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">do</span> {</span><br><span class="line">        slow = nums[slow];</span><br><span class="line">        fast = nums[nums[fast]];</span><br><span class="line">    } <span class="keyword">while</span> (slow != fast);</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> <span class="variable">ptr1</span> <span class="operator">=</span> nums[<span class="number">0</span>];</span><br><span class="line">    <span class="type">int</span> <span class="variable">ptr2</span> <span class="operator">=</span> slow;</span><br><span class="line">    <span class="keyword">while</span> (ptr1 != ptr2) {</span><br><span class="line">        ptr1 = nums[ptr1];</span><br><span class="line">        ptr2 = nums[ptr2];</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> ptr1;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="5-查找链表中倒数第-N-个节点（固定差快慢指针）"><a href="#5-查找链表中倒数第-N-个节点（固定差快慢指针）" class="headerlink" title="5. 查找链表中倒数第 N 个节点（固定差快慢指针）"></a>5. 查找链表中倒数第 N 个节点（固定差快慢指针）</h3><p><strong>场景描述：</strong> 在链表中，我们可能需要找到倒数第 N 个节点。通过让快指针先走 N 步，再让慢指针和快指针同时前进，直到快指针到达链表末尾，慢指针即为倒数第 N 个节点。</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">findNthFromEnd</span><span class="params">(ListNode head, <span class="type">int</span> n)</span> {</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">fast</span> <span class="operator">=</span> head;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// fast 先走 n 步</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) {</span><br><span class="line">        <span class="keyword">if</span> (fast == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        fast = fast.next;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// fast 和 slow 同步前进</span></span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span>) {</span><br><span class="line">        fast = fast.next;</span><br><span class="line">        slow = slow.next;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> slow;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>说明：</strong>虽然两个指针速度相同，但由于存在固定的“距离差”，当快指针走到末尾时，慢指针恰好在目标节点。可以视为快慢指针的 <strong>滞后型变体</strong>。</p>
+<h3 id="6-判断链表是否为回文结构"><a href="#6-判断链表是否为回文结构" class="headerlink" title="6. 判断链表是否为回文结构"></a>6. 判断链表是否为回文结构</h3><p><strong>场景描述：</strong> 判断一个链表是否为回文链表，意味着要检查链表的前半部分和后半部分是否一致。通过使用快慢指针找到链表中点，再反转后半部分并与前半部分进行比较，可以有效地解决这个问题。</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">isPalindrome</span><span class="params">(ListNode head)</span> {</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">null</span> || head.next == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找中点</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">slow</span> <span class="operator">=</span> head, fast = head;</span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">null</span> &amp;&amp; fast.next != <span class="literal">null</span>) {</span><br><span class="line">        slow = slow.next;</span><br><span class="line">        fast = fast.next.next;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 反转后半部分</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">while</span> (slow != <span class="literal">null</span>) {</span><br><span class="line">        <span class="type">ListNode</span> <span class="variable">next</span> <span class="operator">=</span> slow.next;</span><br><span class="line">        slow.next = prev;</span><br><span class="line">        prev = slow;</span><br><span class="line">        slow = next;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 比较两部分</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">left</span> <span class="operator">=</span> head, right = prev;</span><br><span class="line">    <span class="keyword">while</span> (right != <span class="literal">null</span>) {</span><br><span class="line">        <span class="keyword">if</span> (left.val != right.val) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        left = left.next;</span><br><span class="line">        right = right.next;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="7-找到两个链表的相交节点"><a href="#7-找到两个链表的相交节点" class="headerlink" title="7. 找到两个链表的相交节点"></a>7. 找到两个链表的相交节点</h3><p><strong>场景描述：</strong> 在两个链表中，可能有一部分节点是共享的。使用快慢指针的技巧，我们可以找到两个链表相交的第一个节点。</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">getIntersectionNode</span><span class="params">(ListNode headA, ListNode headB)</span> {</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">a</span> <span class="operator">=</span> headA, b = headB;</span><br><span class="line">    <span class="keyword">while</span> (a != b) {</span><br><span class="line">        a = (a == <span class="literal">null</span>) ? headB : a.next;</span><br><span class="line">        b = (b == <span class="literal">null</span>) ? headA : b.next;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> a;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<hr>
+<h2 id="🔁-正确的链表环示例"><a href="#🔁-正确的链表环示例" class="headerlink" title="🔁 正确的链表环示例"></a>🔁 正确的链表环示例</h2><figure class="highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1 → 2 → 3 → 4 → 5</span><br><span class="line">              ↓</span><br><span class="line">              6 → 7 → 8</span><br><span class="line">                   ↑    ↓</span><br><span class="line">                   ←←←←←</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>节点 5 指向 6，开始进入环。</li>
+<li>节点 8 再次指向 6，形成环。</li>
+<li>环的起始节点是 6，长度为 3。</li>
+</ul>
+<p>快慢指针从 head 出发最终在环内某点相遇，再从头与相遇点同时出发会在 6 相遇。</p>
+<hr>
+<h2 id="📈-时间与空间复杂度分析"><a href="#📈-时间与空间复杂度分析" class="headerlink" title="📈 时间与空间复杂度分析"></a>📈 时间与空间复杂度分析</h2><table>
+<thead>
+<tr>
+<th>操作</th>
+<th>时间复杂度</th>
+<th>空间复杂度</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>判断是否有环</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>最多遍历所有节点</td>
+</tr>
+<tr>
+<td>寻找中点</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>快指针走完链表</td>
+</tr>
+<tr>
+<td>找环起点</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>相遇后最多再走 L 步</td>
+</tr>
+<tr>
+<td>找重复数</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>数组模拟链表，线性时间收敛</td>
+</tr>
+<tr>
+<td>倒数第 N 个</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>两次遍历压缩成一个固定差双指针</td>
+</tr>
+<tr>
+<td>回文链表</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>快慢指针+链表反转+比较</td>
+</tr>
+<tr>
+<td>找相交节点</td>
+<td>O(n)</td>
+<td>O(1)</td>
+<td>指针同步抵消长度差</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="✅-使用建议与注意事项"><a href="#✅-使用建议与注意事项" class="headerlink" title="✅ 使用建议与注意事项"></a>✅ 使用建议与注意事项</h2><ul>
+<li>避免空指针访问。</li>
+<li>明确快慢速度关系，步长不能随意变。</li>
+<li>数组转链表时注意索引越界问题。</li>
+</ul>
+<hr>
+<h2 id="🌍-实际应用场景"><a href="#🌍-实际应用场景" class="headerlink" title="🌍 实际应用场景"></a>🌍 实际应用场景</h2><ul>
+<li>检测链表/图结构是否存在环；</li>
+<li>操作系统中检测死锁；</li>
+<li>查找循环依赖；</li>
+<li>数组类问题的环判断（如找重复数）。</li>
+</ul>
+<hr>
+<h2 id="📎-快慢指针的非典型变种与对比算法"><a href="#📎-快慢指针的非典型变种与对比算法" class="headerlink" title="📎 快慢指针的非典型变种与对比算法"></a>📎 快慢指针的非典型变种与对比算法</h2><p>虽然“快慢指针”一词常用于速度不同的双指针同步推进，但并非所有使用双指针的算法都属于快慢指针法。</p>
+<p>以下是一种常见的“窗口内趋势检测”方法，看起来像双指针，实则与快慢指针的核心思想不同：</p>
+<h3 id="案例：局部趋势检测"><a href="#案例：局部趋势检测" class="headerlink" title="案例：局部趋势检测"></a>案例：局部趋势检测</h3><p>数据是按时间排序的，例如一年中每个月的数据，或一个月中每天的数据。</p>
+<p><strong>问题描述：</strong></p>
+<blockquote>
+<p>在任意一个点，判断其后 5 天以内是否有超过 ±30% 的涨幅或跌幅。</p>
+</blockquote>
+<p><strong>思路：</strong></p>
+<ul>
+<li>外层指针遍历每个时间点 <code>i</code>；</li>
+<li>内层在 <code>i+1</code> 到 <code>i+5</code> 范围内查找；</li>
+<li>如果 <code>(data[j] - data[i]) / data[i]</code> 的绝对值大于 30%，记录该趋势。</li>
+</ul>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">hasStrongTrend</span><span class="params">(<span class="type">double</span>[] data)</span> {</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> data.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; i++) {</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i + <span class="number">1</span>; j &lt;= i + <span class="number">5</span> &amp;&amp; j &lt; n; j++) {</span><br><span class="line">            <span class="type">double</span> <span class="variable">ratio</span> <span class="operator">=</span> (data[j] - data[i]) / data[i];</span><br><span class="line">            <span class="keyword">if</span> (Math.abs(ratio) &gt;= <span class="number">0.3</span>) {</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p><strong>分析：</strong></p>
+<ul>
+<li>❌ 不属于典型快慢指针：没有速度差，没有相遇判定；</li>
+<li>✅ 更接近滑动窗口 / 固定范围扫描；</li>
+<li>✅ 可归类为“窗口内双指针比较法”或“局部趋势检测”。</li>
+</ul>
+<p>这类算法是快慢指针的 <strong>并行指针结构的一种衍生对比形式</strong>，常用于时间序列分析、金融涨跌监测、局部波动检测等。</p>
+<hr>
+<h2 id="📚-拓展阅读"><a href="#📚-拓展阅读" class="headerlink" title="📚 拓展阅读"></a>📚 拓展阅读</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cycle_detection">Floyd 判圈算法 - Wikipedia</a></li>
+<li>LeetCode 141, 142, 287, 876 等经典题目</li>
+</ul>
+<hr>
+<p>快慢指针法是一种空间效率极高的“动态双指针法”，也是刷题、面试、系统开发中极具实战价值的算法技巧。熟练掌握它，将帮助你轻松解决一类复杂的问题！</p>
+<hr>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">chenxueyao</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://blog.restlessnight.cn/2025/04/08/kuai-man-zhi-zhen-fa-xiang-jie-floyd-s-tortoise-and-hare-algorithm/">https://blog.restlessnight.cn/2025/04/08/kuai-man-zhi-zhen-fa-xiang-jie-floyd-s-tortoise-and-hare-algorithm/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">chenxueyao</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">算法</span>
+                                </a>
+                            
+                                <a href="/tags/Algorithm/">
+                                    <span class="chip bg-color">Algorithm</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%8C%87%E9%92%88/">
+                                    <span class="chip bg-color">指针</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/">
+                                    <span class="chip bg-color">快慢指针</span>
+                                </a>
+                            
+                                <a href="/tags/LeetCode/">
+                                    <span class="chip bg-color">LeetCode</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.png" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2025/04/08/kuai-man-zhi-zhen-fa-xiang-jie-floyd-s-tortoise-and-hare-algorithm/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="快慢指针法详解（Floyd&#39;s Tortoise and Hare Algorithm）">
+                        
+                        <span class="card-title">快慢指针法详解（Floyd&#39;s Tortoise and Hare Algorithm）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-04-08
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E7%AE%97%E6%B3%95/">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
+                    <a href="/tags/Algorithm/">
+                        <span class="chip bg-color">Algorithm</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%8C%87%E9%92%88/">
+                        <span class="chip bg-color">指针</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88/">
+                        <span class="chip bg-color">快慢指针</span>
+                    </a>
+                    
+                    <a href="/tags/LeetCode/">
+                        <span class="chip bg-color">LeetCode</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2025/04/03/shi-guang-cuo-wei-yi-ci-mysql-zhu-cong-tong-bu-yan-chi-de-pai-cha-yu-you-hua/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="时光错位：一次MySQL主从同步延迟的排查与优化">
+                        
+                        <span class="card-title">时光错位：一次MySQL主从同步延迟的排查与优化</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-04-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/MySQL/" class="post-category">
+                                    MySQL
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/MySQL/">
+                        <span class="chip bg-color">MySQL</span>
+                    </a>
+                    
+                    <a href="/tags/%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/">
+                        <span class="chip bg-color">主从同步</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('100')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: 不眠之夜の博客<br />'
+            + '文章作者: chenxueyao<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2019-2025</span>
+            
+            <a href="/about" target="_blank">chenxueyao</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/restlessnight" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:812138225@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=812138225" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 812138225" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?ce7122ac14d1b2c350a499493a378e5f";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
