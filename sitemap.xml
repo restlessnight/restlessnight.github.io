@@ -47,6 +47,15 @@
   </url>
   
   <url>
+    <loc>https://blog.restlessnight.cn/categories/index.html</loc>
+    
+    <lastmod>2024-03-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.restlessnight.cn/about/index.html</loc>
     
     <lastmod>2024-03-01</lastmod>
@@ -57,15 +66,6 @@
   
   <url>
     <loc>https://blog.restlessnight.cn/contact/index.html</loc>
-    
-    <lastmod>2024-03-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.restlessnight.cn/categories/index.html</loc>
     
     <lastmod>2024-03-01</lastmod>
     
@@ -99,20 +99,6 @@
     <priority>1.0</priority>
   </url>
 
-  
-  <url>
-    <loc>https://blog.restlessnight.cn/tags/MySQL/</loc>
-    <lastmod>2025-04-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.restlessnight.cn/tags/%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/</loc>
-    <lastmod>2025-04-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
   
   <url>
     <loc>https://blog.restlessnight.cn/tags/%E7%AE%97%E6%B3%95/</loc>
@@ -149,6 +135,20 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://blog.restlessnight.cn/tags/MySQL/</loc>
+    <lastmod>2025-04-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.restlessnight.cn/tags/%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/</loc>
+    <lastmod>2025-04-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -159,14 +159,14 @@
   </url>
   
   <url>
-    <loc>https://blog.restlessnight.cn/categories/MySQL/</loc>
+    <loc>https://blog.restlessnight.cn/categories/%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2025-04-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blog.restlessnight.cn/categories/%E7%AE%97%E6%B3%95/</loc>
+    <loc>https://blog.restlessnight.cn/categories/MySQL/</loc>
     <lastmod>2025-04-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
