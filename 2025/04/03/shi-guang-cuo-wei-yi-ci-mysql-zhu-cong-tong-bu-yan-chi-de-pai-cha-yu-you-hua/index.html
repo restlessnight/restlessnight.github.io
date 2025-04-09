@@ -426,7 +426,7 @@
             <div id="articleContent">
                 <h2 id="时光错位：一次MySQL主从同步延迟的排查与优化"><a href="#时光错位：一次MySQL主从同步延迟的排查与优化" class="headerlink" title="时光错位：一次MySQL主从同步延迟的排查与优化"></a>时光错位：一次MySQL主从同步延迟的排查与优化</h2><h2 id="问题出现背景"><a href="#问题出现背景" class="headerlink" title="问题出现背景"></a>问题出现背景</h2><p>在生产环境中，执行 <code>ALTER TABLE</code> 语句向某张大表新增字段后，主从同步出现严重延迟。从库 <code>SHOW SLAVE STATUS</code> 显示 <code>Seconds_Behind_Master</code> 迅速增长，从正常的几秒飙升至数小时甚至上万秒，同时从库查询开始频繁超时，业务访问受阻。<code>SHOW PROCESSLIST</code> 发现大量查询处于 <code>Waiting for table metadata lock</code> 或 <code>Waiting for table flush</code> 状态，导致连接数剧增，最终触及 <code>max_connections</code> 限制，影响整个系统的稳定性。</p>
 <h2 id="问题解析"><a href="#问题解析" class="headerlink" title="问题解析"></a><strong>问题解析</strong></h2><h3 id="1-查询从库状态"><a href="#1-查询从库状态" class="headerlink" title="1. 查询从库状态"></a><strong>1. 查询从库状态</strong></h3><p>SHOW SLAVE STATUS\G</p>
-<p>具体指标查看：<a href="##%E5%85%B3%E9%94%AE%E5%AD%97%E6%AE%B5%E8%A7%A3%E6%9E%90"><strong>关键字段解析</strong></a></p>
+<p>具体指标查看：<a href="#%E5%85%B3%E9%94%AE%E5%AD%97%E6%AE%B5%E8%A7%A3%E6%9E%90"><strong>关键字段解析</strong></a></p>
 <h3 id="2-结果发现"><a href="#2-结果发现" class="headerlink" title="2. 结果发现"></a><strong>2. 结果发现</strong></h3><p>Slave_SQL_Running_State 值为： <code>Waiting for table metadata lock</code></p>
 <ul>
 <li>正常值：<code>Reading event from the relay log</code></li>
@@ -468,7 +468,7 @@
 
 <p>查询结果显示存在 5 个未提交的事务，其中部分事务已运行超过 8 天，并且执行时间仍在持续增加。</p>
 <h3 id="5-关联-SHOW-PROCESSLIST-进行确认"><a href="#5-关联-SHOW-PROCESSLIST-进行确认" class="headerlink" title="5. 关联 SHOW PROCESSLIST 进行确认"></a><strong>5. 关联 <code>SHOW PROCESSLIST</code> 进行确认</strong></h3><p>通过 <code>trx_mysql_thread_id</code> 关联 <code>SHOW PROCESSLIST</code> 进一步确认事务详情，发现一个 ID 为 <code>19138566</code> 的线程，状态如下：</p>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Id        User        Host                     db                                               Command      Time      State                     Info</span><br><span class="line">19138566  cbcread     10.60.86.91:60369        ioscar_customersystem_customerbasic              Query        648905    Creating <span class="built_in">sort</span> index       SELECT concat(a.id) AS <span class="string">'案件ID'</span>, a.customer_name AS <span class="string">'客户'</span>,   ac.account_age AS <span class="string">'账龄段'</span>,</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Id        User        Host                     db                                               Command      Time      State                     Info</span><br><span class="line">19138566  readuser     10.11.11.11:50369        ioscar_customersystem_customerbasic              Query        648905    Creating <span class="built_in">sort</span> index       SELECT concat(a.id) AS <span class="string">'案件ID'</span>, a.customer_name AS <span class="string">'客户'</span>,   ac.account_age AS <span class="string">'账龄段'</span>,</span><br></pre></td></tr></tbody></table></figure>
 
 <p>该查询已运行 <strong>648905 秒（约 8 天）</strong>，且执行时间仍在增长，表明该事务可能已进入死锁或长时间未提交，严重影响 MySQL 性能和主从同步。</p>
 <h3 id="6-终止异常事务"><a href="#6-终止异常事务" class="headerlink" title="6. 终止异常事务"></a><strong>6. 终止异常事务</strong></h3><p>由于该事务占用资源并可能阻塞主从同步，立即执行 <code>KILL</code> 命令终止该事务：</p>
@@ -498,7 +498,7 @@
 </ol>
 <p>至此，主从同步恢复正常，问题解决。</p>
 <h2 id="问题回顾"><a href="#问题回顾" class="headerlink" title="问题回顾"></a>问题回顾</h2><p>后续分析事故产生原理</p>
-<p>主要从是 <a href="##MySQL%E5%85%B1%E4%BA%AB%E9%94%81%E5%92%8C%E7%8B%AC%E5%8D%A0%E9%94%81">MySQL共享锁和独占锁</a> 分析</p>
+<p>主要从是 <a href="#MySQL%E5%85%B1%E4%BA%AB%E9%94%81%E5%92%8C%E7%8B%AC%E5%8D%A0%E9%94%81">MySQL共享锁和独占锁</a> 分析</p>
 <p><strong>发生 <code>Waiting for table metadata lock</code> 的原因</strong></p>
 <p>当 <code>ALTER TABLE</code> 需要 <code>X 锁</code>，但表上有正在执行的 <code>SELECT</code> 时，<code>ALTER TABLE</code> 会<strong>进入等待状态</strong>。这时 <strong>新的查询（SELECT）也会被阻塞</strong>，即使它只是想获取 S 锁！</p>
 <p><strong>📌 详细的锁定过程</strong></p>
