@@ -6,8 +6,12 @@
     <meta charset="utf-8">
     <meta name="baidu-site-verification" content="codeva-S2nZYiUPkL">
     <meta name="google-site-verification" content="Vpd_F-MTIUtR8TAv7vtWW3CZIc9K7wW9nOLCtxaQV48" />
-    <meta name="keywords" content="Hello World, restlessnight,github,不眠之夜の博客,不眠之夜的博客,博客,不眠之夜,技术,java,JAVA,spring,springboot,springcloud,spring cloud alibaba,数据库,mysql,tidb,ocenbase,doris,redis,中间件,mq,rocketmq,nacos,feign,分布式,zookper,多线程,高并发">
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex">
+    <meta name="keywords" content="算法,雪花算法,百度UID Generator">
+    <meta name="description" content="
+在 64 位的世界里，最左边的那一位，决定了一切。
+
+一、背景在测试环境中，发现数据库中的 ID 值出现负数现象，第一反应是 ID 超过 long 类型能表示的最大值，导致数据转成负值。
+Java 中 long 类型的最大值为 2^63 ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +23,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hello World | 不眠之夜の博客</title>
+    <title>隐匿之符：一次关于负号的雪花追溯 | 不眠之夜の博客</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="canonical" href="https://blog.restlessnight.cn" />
 
@@ -342,12 +346,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hello World</h1>
+                    <h1 class="description center-align post-title">隐匿之符：一次关于负号的雪花追溯</h1>
                 </div>
             </div>
         </div>
@@ -369,9 +373,17 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">算法</span>
+                            </a>
+                        
+                            <a href="/tags/%E9%9B%AA%E8%8A%B1%E7%AE%97%E6%B3%95/">
+                                <span class="chip bg-color">雪花算法</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -379,8 +391,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/hello/" class="post-category">
-                                hello
+                            <a href="/categories/%E9%9B%AA%E8%8A%B1%E7%AE%97%E6%B3%95/" class="post-category">
+                                雪花算法
                             </a>
                         
                     </div>
@@ -416,19 +428,133 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></tbody></table></figure>
+                <blockquote>
+<p><em>在 64 位的世界里，最左边的那一位，决定了一切。</em></p>
+</blockquote>
+<h1 id="一、背景"><a href="#一、背景" class="headerlink" title="一、背景"></a><strong>一、背景</strong></h1><p>在测试环境中，发现数据库中的 ID 值出现负数现象，第一反应是 ID 超过 long 类型能表示的最大值，导致数据转成负值。</p>
+<p>Java 中 long 类型的最大值为 2^63 - 1 = 9223372036854775807，超过该值后会转成负值。</p>
+<h1 id="二、实际环境分析数据"><a href="#二、实际环境分析数据" class="headerlink" title="二、实际环境分析数据"></a><strong>二、实际环境分析数据</strong></h1><p>生产环境数据分析：</p>
+<ul>
+<li>按最近3个月 ID 增长趋势预估：预测 5.5 个月后会增长至 long 最大值</li>
+<li>按最近16个月 ID 增长趋势预估：预测仅2+个月后会增长至 long 最大值</li>
+</ul>
+<p>可见 ID 增长速度有加快趋势，如果未采取处理举措，将很快遇到全量 ID 转成负值问题。</p>
+<h1 id="三、负-ID-对系统的影响"><a href="#三、负-ID-对系统的影响" class="headerlink" title="三、负 ID 对系统的影响"></a><strong>三、负 ID 对系统的影响</strong></h1><h2 id="1-数据库影响"><a href="#1-数据库影响" class="headerlink" title="1. 数据库影响"></a><strong>1. 数据库影响</strong></h2><ul>
+<li><strong>性能问题</strong>：ID 递增类值用作主键时，如果达到负值，会导致类 B+ 树结构非最后端插入，触发频繁的页分裂，降低性能</li>
+<li><strong>排序问题</strong>：负 ID 会导致排序结果异常，尤其是用 ID 进行排序的场景</li>
+</ul>
+<h2 id="2-业务影响"><a href="#2-业务影响" class="headerlink" title="2. 业务影响"></a><strong>2. 业务影响</strong></h2><ul>
+<li><strong>分页查询崩溃</strong>：一些场景依赖 ID 递增，实现分页（如每次按 ID 条件查询大于上次最大 ID ），不支持负值时会导致查询失效或重复数据</li>
+</ul>
+<h1 id="四、解决方案"><a href="#四、解决方案" class="headerlink" title="四、解决方案"></a><strong>四、解决方案</strong></h1><h2 id="业务层面（代码侵入）"><a href="#业务层面（代码侵入）" class="headerlink" title="业务层面（代码侵入）"></a>业务层面（代码侵入）</h2><p>id 转成BigInteger 然后数据库用无符号bigint</p>
+<h2 id="百度id-uid-generator-方向"><a href="#百度id-uid-generator-方向" class="headerlink" title="百度id  uid generator 方向"></a>百度id  uid generator 方向</h2><h3 id="默认配置"><a href="#默认配置" class="headerlink" title="默认配置"></a>默认配置</h3><figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="type">int</span> <span class="variable">timeBits</span> <span class="operator">=</span> <span class="number">28</span>;</span><br><span class="line"><span class="keyword">protected</span> <span class="type">int</span> <span class="variable">workerBits</span> <span class="operator">=</span> <span class="number">22</span>;</span><br><span class="line"><span class="keyword">protected</span> <span class="type">int</span> <span class="variable">seqBits</span> <span class="operator">=</span> <span class="number">13</span>;</span><br></pre></td></tr></tbody></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></tbody></table></figure>
+<h3 id="配置解析"><a href="#配置解析" class="headerlink" title="配置解析"></a>配置解析</h3><table>
+<thead>
+<tr>
+<th>timeBits (28)</th>
+<th>workerBits (22)</th>
+<th>seqBits (13)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>时间戳（秒）</td>
+<td>机器号（固定为29）</td>
+<td>每秒序列号</td>
+</tr>
+</tbody></table>
+<p>UID = (deltaSeconds &lt;&lt; (22 + 13)) | (workerId &lt;&lt; 13) | sequence;</p>
+<ol>
+<li><p>序列号（sequence）</p>
+<p>2^13 - 1 = 8191</p>
+<ul>
+<li>最多能表示：<strong>8192 个唯一值</strong></li>
+<li>范围是：<strong>0 ~ 8191（共 8192 个）</strong></li>
+<li>所以在十进制里：最后最多就是 <strong>8191</strong></li>
+</ul>
+</li>
+<li><p>机器号（workerId）</p>
+<p>2^22 - 1 = 4,194,304</p>
+<ul>
+<li>最多能表示：4,194,303<strong>个唯一值</strong></li>
+<li>范围是：<strong>0 ~</strong> 4,194,303<strong>（共</strong> 4,194,304<strong>个）</strong></li>
+<li>所以在十进制里：最后最多就是 4,194,304</li>
+</ul>
+</li>
+<li><p>时间（deltaSeconds ）</p>
+<p>2^28 - 1 = 268,435,455 秒</p>
+<ul>
+<li>秒：268,435,455 秒</li>
+<li>分钟：≈ 4,473,924 分钟</li>
+<li>小时：≈ 74,565 小时</li>
+<li>天数：≈ 3,107 天</li>
+<li>年数：≈ <strong>8.5 年</strong></li>
+</ul>
+<p>你从设置的起始时间（Epoch）开始，最多能支撑 <strong>8.5 年内的 UID 生成</strong>，</p>
+</li>
+</ol>
+<h3 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h3><p>Epoch默认时间 ：2016-05-20</p>
+<p>2016+8.5年 2025年之后会超变成负数</p>
+<h3 id="处理方案"><a href="#处理方案" class="headerlink" title="处理方案"></a>处理方案</h3><p><strong>目标 ：</strong></p>
+<ol>
+<li><p>保证id 不重复</p>
+</li>
+<li><p>尽量保证id 递增趋势</p>
+<p>当前id ：9090949948782127403L</p>
+<p>0111111000101001100010101101000000000000000000111010100100101011（64位）</p>
+<p>0 标志位</p>
+<p>1111110001010011000101011010 → 264581466 （时间差秒）</p>
+<p>0000000000000000011101  → 29 （机器号）</p>
+<p>0100100101011 → 2347 （序列号）</p>
+</li>
+</ol>
+<p><strong>处理方法 ： 调整uid 各组成位置位数</strong></p>
+<ol>
+<li><p>首先保证id 不重复可以通过修改机器号，不使用之前的机器id 生成uid 可以保证id 不与之前重复，即使时间戳一样</p>
+</li>
+<li><p>将时间差位置扩充以便能使用的时间更长，减少机器号位置</p>
+<p>30位  ≈ 31, 557,600 秒 ≈ 34.0年 机器号：20位=1,048,576个</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="type">int</span> <span class="variable">timeBits</span> <span class="operator">=</span> <span class="number">30</span>;</span><br><span class="line"><span class="keyword">protected</span> <span class="type">int</span> <span class="variable">workerBits</span> <span class="operator">=</span> <span class="number">20</span>;</span><br><span class="line"><span class="keyword">protected</span> <span class="type">int</span> <span class="variable">seqBits</span> <span class="operator">=</span> <span class="number">13</span>;</span><br></pre></td></tr></tbody></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></tbody></table></figure>
+<p>UID = (deltaSeconds &lt;&lt; (20 + 13)) | (workerId &lt;&lt; 13) | sequence;</p>
+</li>
+<li><p>只将时间戳位置 扩充30位，如果时间差还是当前时间差，那时间戳位置向后移动两位，生成的id 必然小于之前id，观察目前2进制时间差前6位都是1 如果想生成的id大于之前id，需要保证 标识位0 后 7位都是1 ，这样 时间戳位置就需要扩充至37位 ，前 7位为1 保证大于之前id  但需要每次算时间差 + 上前7为是1后30位为0的37位2进制数（1111111000000000000000000000000000000 =34091302913），但同时机器位缩小至13位  只能表示8192台机器号 （如果机器号不够用可以折中，适当缩小时间差位数，但可能生成id 会小于之前id  位数缩短越多交叉越多）</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="type">int</span> <span class="variable">timeBits</span> <span class="operator">=</span> <span class="number">37</span>;</span><br><span class="line"><span class="keyword">protected</span> <span class="type">int</span> <span class="variable">workerBits</span> <span class="operator">=</span> <span class="number">13</span>;</span><br><span class="line"><span class="keyword">protected</span> <span class="type">int</span> <span class="variable">seqBits</span> <span class="operator">=</span> <span class="number">13</span>;</span><br></pre></td></tr></tbody></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></tbody></table></figure>
+<p>UID = (mask &lt;&lt; 30+13 + 13) | (deltaSeconds &lt;&lt; (13 + 13)) | (workerId &lt;&lt; 13) | sequence;</p>
+</li>
+</ol>
+<h3 id="处理流程及源码修改"><a href="#处理流程及源码修改" class="headerlink" title="处理流程及源码修改"></a>处理流程及源码修改</h3><p>公式可能不好理，解通俗解释：</p>
+<p>28位二进制时间差  + 22位二进制机器号 + 13位 二进制序列号</p>
+<p>举例：</p>
+<ul>
+<li>时间 2025-04-16 00:00:00  时间戳  1744732800 秒</li>
+<li>Epoch默认时间 ：2016-05-20 00:00:00   时间戳 1463673600秒</li>
+<li>时间差 281059200 = 1744732800 - 1463673600</li>
+<li>机器号比如 现在是 29  序列号1024</li>
+<li>id = 二进制（时间差 281059200） + 二进制（29）+ 二进制（1024） 不够需要补全对应位置的位数</li>
+<li>10000110000001001111110000000 + 0000000000000000011101 + 0010000000000</li>
+<li>整体转long 无符号 9657120577919624088 有符号  -8789623495789927528、</li>
+<li>为啥有符号是负的 ，这是因为 28位时间差 最多表示 268,435,455秒  但   281,059,200 时间差明显超过了 ，再转二进制 就是1开头的29位二进制数 10000110000001001111110000000 这样 开头的标志位 0 就被时间差的第29位占用了，标志位是1 转 long  就是负数</li>
+<li>通过调整时间位，让时间位够用 ，不占用标志位  就能 使long值为正数</li>
+<li>调整后 30位二进制时间差  + 20位二进制机器号 + 13位 二进制序列号</li>
+<li>二进制（时间差 281059200） + 二进制（29）+ 二进制（1024） 不够需要补全对应位置的位</li>
+<li>010000110000001001111110000000 + 00000000000000011101  + 0010000000000</li>
+<li>整体转long 值为  2414280144480085222  比目前id 小可能会有一系列问题</li>
+<li>那 如何保证生成的id 大呢解析目前id  时间戳位置 前6位都是1  保证比之前id大 需要二进制时间戳前7位都是1 此时生成的id 比 之前的大 暂时称 1 的这几位数是 mask 位 减少 机器号位置增加mark位</li>
+<li>此时 id = 7位二进制 （mask ）+ 30位二进制时间差  + 13位二进制机器号 + 13位 二进制序列号</li>
+<li>1111111 + 010000110000001001111110000000 + 0000000011101 + 0010000000000</li>
+<li>整体转long 值为 9170176006445836224</li>
+<li>达到不重复，不为负数，比之前id大的目的</li>
+</ul>
+<p>代码调整后增加mask 位(标红位置为修改源码)</p>
+<figure class="highlight java"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Copyright (c) 2017 Baidu, Inc. All Rights Reserve.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Licensed under the Apache License, Version 2.0 (the "License");</span></span><br><span class="line"><span class="comment"> * you may not use this file except in compliance with the License.</span></span><br><span class="line"><span class="comment"> * You may obtain a copy of the License at</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> *     &lt;http://www.apache.org/licenses/LICENSE-2.0&gt;</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Unless required by applicable law or agreed to in writing, software</span></span><br><span class="line"><span class="comment"> * distributed under the License is distributed on an "AS IS" BASIS,</span></span><br><span class="line"><span class="comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></span><br><span class="line"><span class="comment"> * See the License for the specific language governing permissions and</span></span><br><span class="line"><span class="comment"> * limitations under the License.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">package</span> com.baidu.fsg.uid;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang.builder.ToStringBuilder;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.lang.builder.ToStringStyle;</span><br><span class="line"><span class="keyword">import</span> org.springframework.util.Assert;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Allocate 64 bits for the UID(long)&lt;br&gt;</span></span><br><span class="line"><span class="comment"> * sign (fixed 1bit) -&gt; deltaSecond -&gt; workerId -&gt; sequence(within the same second)</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> yutianbao</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BitsAllocator</span> {</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Total 64 bits</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">TOTAL_BITS</span> <span class="operator">=</span> <span class="number">1</span> &lt;&lt; <span class="number">6</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Bits for [sign-&gt; mark -&gt; second-&gt; workId-&gt; sequence]</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">signBits</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> timestampBits;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> workerIdBits;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> sequenceBits;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Max value for workId &amp; sequence</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> maxDeltaSeconds;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> maxWorkerId;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> maxSequence;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Shift for timestamp &amp; workerId</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> timestampShift;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> workerIdShift;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//面具位 7位为1 保证大于之前id  但需要每次算时间差 + 上前7为是1后30位为0的37位2进制数（1111111000000000000000000000000000000 =136365211648</span></span><br><span class="line">    <span class="comment">// mask = (1L &lt;&lt; maskLen) -1 面具值 = 1111111</span></span><br><span class="line">    <span class="comment">//mask &lt;&lt; maskShift = 1111111000000000000000000000000000000</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">maskLen</span> <span class="operator">=</span> <span class="number">7</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">long</span> mask ;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> maskShift;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Constructor with timestampBits, workerIdBits, sequenceBits&lt;br&gt;</span></span><br><span class="line"><span class="comment">     * The highest bit used for sign, so &lt;code&gt;63&lt;/code&gt; bits for timestampBits, workerIdBits, sequenceBits</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">BitsAllocator</span><span class="params">(<span class="type">int</span> timestampBits, <span class="type">int</span> workerIdBits, <span class="type">int</span> sequenceBits)</span> {</span><br><span class="line">        <span class="comment">// make sure allocated 64 bits</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">allocateTotalBits</span> <span class="operator">=</span> signBits + timestampBits + workerIdBits + sequenceBits;</span><br><span class="line">        Assert.isTrue(allocateTotalBits == TOTAL_BITS, <span class="string">"allocate not enough 64 bits"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// initialize bits</span></span><br><span class="line">        <span class="built_in">this</span>.timestampBits = timestampBits;</span><br><span class="line">        <span class="built_in">this</span>.workerIdBits = workerIdBits;</span><br><span class="line">        <span class="built_in">this</span>.sequenceBits = sequenceBits;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// initialize max value</span></span><br><span class="line">        <span class="built_in">this</span>.maxDeltaSeconds = ~(-<span class="number">1L</span> &lt;&lt; timestampBits);</span><br><span class="line">        <span class="built_in">this</span>.maxWorkerId = ~(-<span class="number">1L</span> &lt;&lt; workerIdBits);</span><br><span class="line">        <span class="built_in">this</span>.maxSequence = ~(-<span class="number">1L</span> &lt;&lt; sequenceBits);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// initialize shift</span></span><br><span class="line">        <span class="built_in">this</span>.timestampShift = workerIdBits + sequenceBits;</span><br><span class="line">        <span class="built_in">this</span>.workerIdShift = sequenceBits;</span><br><span class="line">        <span class="comment">//面具参数相关值</span></span><br><span class="line">        <span class="built_in">this</span>.mask = (<span class="number">1L</span> &lt;&lt; maskLen) -<span class="number">1</span> ;</span><br><span class="line">        <span class="built_in">this</span>.maskShift = timestampShift + timestampBits - maskLen;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Allocate bits for UID according to delta seconds &amp; workerId &amp; sequence&lt;br&gt;</span></span><br><span class="line"><span class="comment">     * &lt;b&gt;Note that: &lt;/b&gt;The highest bit will always be 0 for sign</span></span><br><span class="line"><span class="comment">     * </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> deltaSeconds</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> workerId</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> sequence</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">allocate</span><span class="params">(<span class="type">long</span> deltaSeconds, <span class="type">long</span> workerId, <span class="type">long</span> sequence)</span> {</span><br><span class="line">        <span class="keyword">return</span>  (mask &lt;&lt; maskShift) | (deltaSeconds &lt;&lt; timestampShift) | (workerId &lt;&lt; workerIdShift) | sequence;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Getters</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getSignBits</span><span class="params">()</span> {</span><br><span class="line">        <span class="keyword">return</span> signBits;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getTimestampBits</span><span class="params">()</span> {</span><br><span class="line">        <span class="keyword">return</span> timestampBits;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getWorkerIdBits</span><span class="params">()</span> {</span><br><span class="line">        <span class="keyword">return</span> workerIdBits;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getSequenceBits</span><span class="params">()</span> {</span><br><span class="line">        <span class="keyword">return</span> sequenceBits;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getMaxDeltaSeconds</span><span class="params">()</span> {</span><br><span class="line">        <span class="keyword">return</span> maxDeltaSeconds;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getMaxWorkerId</span><span class="params">()</span> {</span><br><span class="line">        <span class="keyword">return</span> maxWorkerId;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">long</span> <span class="title function_">getMaxSequence</span><span class="params">()</span> {</span><br><span class="line">        <span class="keyword">return</span> maxSequence;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getTimestampShift</span><span class="params">()</span> {</span><br><span class="line">        <span class="keyword">return</span> timestampShift;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getWorkerIdShift</span><span class="params">()</span> {</span><br><span class="line">        <span class="keyword">return</span> workerIdShift;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> {</span><br><span class="line">        <span class="keyword">return</span> ToStringBuilder.reflectionToString(<span class="built_in">this</span>, ToStringStyle.SHORT_PREFIX_STYLE);</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>备注：</p>
+<ol>
+<li>修改之后如果时间位不够用生成 的id 可能重复，修改之前位数不够用先是负数后可能重复</li>
+<li>修改之后如果代码涉及到id 解析的 需要修改对应解析方法</li>
+</ol>
 
                 
             </div>
@@ -455,7 +581,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://blog.restlessnight.cn/2025/04/03/hello-world/">https://blog.restlessnight.cn/2025/04/03/hello-world/</a>
+                    <a href="https://blog.restlessnight.cn/2025/04/03/yin-ni-zhi-fu-yi-ci-guan-yu-fu-hao-de-xue-hua-zhui-su/">https://blog.restlessnight.cn/2025/04/03/yin-ni-zhi-fu-yi-ci-guan-yu-fu-hao-de-xue-hua-zhui-su/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -492,7 +618,15 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">算法</span>
+                                </a>
+                            
+                                <a href="/tags/%E9%9B%AA%E8%8A%B1%E7%AE%97%E6%B3%95/">
+                                    <span class="chip bg-color">雪花算法</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -573,13 +707,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2025/04/03/yin-ni-zhi-fu-yi-ci-guan-yu-fu-hao-de-xue-hua-zhui-su/">
+                <a href="/2025/04/03/shi-guang-cuo-wei-yi-ci-mysql-zhu-cong-tong-bu-yan-chi-de-pai-cha-yu-you-hua/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="隐匿之符：一次关于负号的雪花追溯">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="时光错位：一次MySQL主从同步延迟的排查与优化">
                         
-                        <span class="card-title">隐匿之符：一次关于负号的雪花追溯</span>
+                        <span class="card-title">时光错位：一次MySQL主从同步延迟的排查与优化</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -596,8 +730,8 @@
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E9%9B%AA%E8%8A%B1%E7%AE%97%E6%B3%95/" class="post-category">
-                                    雪花算法
+                            <a href="/categories/MySQL/" class="post-category">
+                                    MySQL
                                 </a>
                             
                             
@@ -607,12 +741,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
+                    <a href="/tags/MySQL/">
+                        <span class="chip bg-color">MySQL</span>
                     </a>
                     
-                    <a href="/tags/%E9%9B%AA%E8%8A%B1%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">雪花算法</span>
+                    <a href="/tags/%E4%B8%BB%E4%BB%8E%E5%90%8C%E6%AD%A5/">
+                        <span class="chip bg-color">主从同步</span>
                     </a>
                     
                 </div>
@@ -623,7 +757,7 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
                 <a href="/2025/04/03/hello-world/">
@@ -657,7 +791,6 @@
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>
